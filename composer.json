@@ -1,0 +1,39 @@
+{
+    "name": "karvaka/wired-table",
+    "description": "Livewire table component.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitry Karvaka",
+            "email": "deathburger777@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.4|^8.0",
+        "livewire/livewire": "^2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "orchestra/testbench": "^6.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Karvaka\\Wired\\Table\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Karvaka\\Wired\\Table\\WiredTableServiceProvider"
+            ]
+        }
+    }
+}
