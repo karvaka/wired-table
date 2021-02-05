@@ -1,4 +1,11 @@
 <div>
+    @if($enableSearch)
+        <div>
+            <input type="search"
+                   wire:model.debounce.{{ $searchDebounce }}ms="search"
+                   placeholder="{{ __('Search...') }}">
+        </div>
+    @endif
     @if($models->isNotEmpty())
         <table>
             <thead>

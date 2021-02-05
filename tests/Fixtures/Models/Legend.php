@@ -10,15 +10,20 @@ class Legend extends Model
 {
     use HasFactory;
 
+    const CLASS_OFFENSIVE = 'offensive';
+    const CLASS_DEFENSIVE = 'defensive';
+    const CLASS_SUPPORT = 'support';
+    const CLASS_RECON = 'recon';
+
     protected $guarded = ['id'];
 
     public static function classes(): array
     {
         return [
-            'offencive',
-            'defencive',
-            'support',
-            'recon'
+            static::CLASS_OFFENSIVE,
+            static::CLASS_DEFENSIVE,
+            static::CLASS_SUPPORT,
+            static::CLASS_RECON
         ];
     }
 

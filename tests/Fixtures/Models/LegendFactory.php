@@ -12,6 +12,7 @@ class LegendFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'occupation' => $this->faker->jobTitle,
             'class' => $this->faker->randomElement(Legend::classes())
         ];
     }

@@ -17,6 +17,7 @@ class CreateLegendsTable extends Migration
         Schema::create('legends', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('occupation');
             $table->enum('class', Legend::classes());
             $table->timestamps();
         });

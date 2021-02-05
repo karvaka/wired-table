@@ -10,7 +10,8 @@ class LegendsTable extends Table
     public function columns(): array
     {
         return [
-            Column::make('name'),
+            Column::make('name')->searchable(),
+            Column::make('occupation')->searchable(),
         ];
     }
 }

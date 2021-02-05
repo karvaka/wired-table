@@ -4,6 +4,7 @@ namespace Karvaka\Wired\Table;
 
 use Closure;
 use BadMethodCallException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
@@ -11,7 +12,8 @@ use Livewire\WithPagination;
 
 abstract class Table extends Component
 {
-    use WithPagination;
+    use WithPagination,
+        Concerns\WithSearch;
 
     public bool $enablePagination = true;
     // public array $perPageOptions = [10, 25, 50];
@@ -35,16 +37,20 @@ abstract class Table extends Component
         return [];
     }
 
-    private function getModels()
+    final private function getModels()
     {
+        $query = $this->query();
+
+        $this->applySearch($query);
+
         return $this->enablePagination ?
-            $this->query()->paginate($this->perPage) :
-            $this->query()->get();
+            $query->paginate($this->perPage) :
+            $query->get();
     }
 
-    private function getColumns(): array
+    final private function getColumns(): Collection
     {
-        return $this->columns();
+        return collect($this->columns());
     }
 
     public function updatingPerPage(): void
