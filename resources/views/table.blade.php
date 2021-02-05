@@ -18,6 +18,11 @@
                 @endforeach
             </tbody>
         </table>
+        @if($enablePagination && $models->hasPages())
+            <div>
+                {{ $models->links() }}
+            </div>
+        @endif
     @else
         <div>{{ 'No results.' }}</div>
     @endif

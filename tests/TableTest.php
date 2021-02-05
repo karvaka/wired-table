@@ -17,20 +17,33 @@ class TableTest extends TestCase
         $this->assertInstanceOf(Builder::class, $table->query());
     }
 
-    public function testQueryNotDiscovered(): void
+    public function testThrowsExceptionIfQueryNotDiscovered(): void
     {
         $this->expectException(\BadMethodCallException::class);
 
-        (new UnknownTable())->query();
+        (new UnknownTable)->query();
     }
 
-    public function testRendersModels(): void
+    public function testRendersPaginator(): void
     {
         Legend::factory()->count(10)->create();
 
-        $response = Livewire::test(LegendsTable::class);
+        $test = Livewire::test(LegendsTable::class, ['enablePagination' => true, 'perPage' => 25]);
 
-        $response->assertViewHas('models', Legend::query()->get());
+        $test->assertViewHas('models', Legend::query()->paginate(25));
+
+        $test->set('perPage', 3);
+
+        $test->assertViewHas('models', Legend::query()->paginate(3));
+    }
+
+    public function testRendersCollection(): void
+    {
+        Legend::factory()->count(10)->create();
+
+        $test = Livewire::test(LegendsTable::class, ['enablePagination' => false]);
+
+        $test->assertViewHas('models', Legend::query()->get());
     }
 
     public function testRendersNoResults(): void
@@ -38,6 +51,5 @@ class TableTest extends TestCase
         $test = Livewire::test(LegendsTable::class);
 
         $test->assertSee('No results.');
-
     }
 }

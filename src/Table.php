@@ -4,12 +4,19 @@ namespace Karvaka\Wired\Table;
 
 use Closure;
 use BadMethodCallException;
-use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 abstract class Table extends Component
 {
+    use WithPagination;
+
+    public bool $enablePagination = true;
+    // public array $perPageOptions = [10, 25, 50];
+    public int $perPage = 25;
+
     private static ?Closure $resolveDiscoverableNamespaceUsing = null;
 
     public function query(): Builder
@@ -30,12 +37,19 @@ abstract class Table extends Component
 
     private function getModels()
     {
-        return $this->query()->get();
+        return $this->enablePagination ?
+            $this->query()->paginate($this->perPage) :
+            $this->query()->get();
     }
 
     private function getColumns(): array
     {
         return $this->columns();
+    }
+
+    public function updatingPerPage(): void
+    {
+        $this->resetPage();
     }
 
     protected function resolveDiscoverableNamespace(string $class): string
