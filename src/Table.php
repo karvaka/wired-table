@@ -23,6 +23,21 @@ abstract class Table extends Component
         throw new BadMethodCallException('Method [[static::query()]] must return [[\Illuminate\Database\Eloquent\Builder]] instance.');
     }
 
+    public function columns(): array
+    {
+        return [];
+    }
+
+    private function getModels()
+    {
+        return $this->query()->get();
+    }
+
+    private function getColumns(): array
+    {
+        return $this->columns();
+    }
+
     protected function resolveDiscoverableNamespace(string $class): string
     {
         if (! is_null(static::$resolveDiscoverableNamespaceUsing)) {
@@ -43,5 +58,13 @@ abstract class Table extends Component
             ->classBasename()
             ->replaceLast('Table', '')
             ->singular();
+    }
+
+    public function render()
+    {
+        return view('wired-table::table')->with([
+            'models' => $this->getModels(),
+            'columns' => $this->getColumns()
+        ]);
     }
 }
