@@ -14,6 +14,7 @@ class WiredTableServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerViews();
+        $this->registerPublishing();
     }
 
     protected function registerViews(): void
@@ -21,5 +22,16 @@ class WiredTableServiceProvider extends ServiceProvider
         $this->loadViewsFrom(
             __DIR__ . '/../resources/views', 'wired-table'
         );
+    }
+
+    protected function registerPublishing(): void
+    {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/wired-table'),
+        ], 'wired-table-views');
     }
 }
