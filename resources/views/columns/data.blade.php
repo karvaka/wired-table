@@ -1,1 +1,0 @@
-{{ $model->getAttribute($column->attribute) }}

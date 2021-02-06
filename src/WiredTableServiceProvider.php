@@ -2,7 +2,9 @@
 
 namespace Karvaka\Wired\Table;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 class WiredTableServiceProvider extends ServiceProvider
 {
@@ -14,6 +16,7 @@ class WiredTableServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerViews();
+        $this->registerComponents();
         $this->registerPublishing();
     }
 
@@ -22,6 +25,23 @@ class WiredTableServiceProvider extends ServiceProvider
         $this->loadViewsFrom(
             __DIR__ . '/../resources/views', 'wired-table'
         );
+    }
+
+    protected function registerComponents(): void
+    {
+        $this->callAfterResolving(BladeCompiler::class, function () {
+            $this->registerComponent('icons.eye');
+            $this->registerComponent('icons.pencil');
+            $this->registerComponent('icons.refresh');
+            $this->registerComponent('icons.search');
+            $this->registerComponent('icons.status-offline');
+            $this->registerComponent('icons.trash');
+        });
+    }
+
+    protected function registerComponent(string $component)
+    {
+        Blade::component('wired-table::components.'.$component, 'wired-table.'.$component);
     }
 
     protected function registerPublishing(): void

@@ -1,1 +1,1 @@
-<a href="mailto:{{ $model->getAttribute($column->attribute) }}">{{ $model->getAttribute($column->attribute) }}</a>
+<a href="mailto:{{ $column->formatValue($model) }}">{{ $column->formatValue($model) }}</a>
