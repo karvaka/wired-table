@@ -7,7 +7,6 @@ use Tests\Fixtures\UnknownTable;
 use Tests\Fixtures\LegendsTable;
 use Livewire\Livewire;
 use Illuminate\Database\Eloquent\Builder;
-use Tests\Seeders\LegendsSeeder;
 
 class TableTest extends TestCase
 {
@@ -52,18 +51,5 @@ class TableTest extends TestCase
         $test = Livewire::test(LegendsTable::class);
 
         $test->assertSee('No results.');
-    }
-
-    public function testSearch(): void
-    {
-        $this->seed(LegendsSeeder::class);
-
-        $test = Livewire::test(LegendsTable::class);
-
-        $this->assertCount(16, $test->viewData('models'));
-
-        $test->set('search', 'For');
-
-        $this->assertCount(2, $test->viewData('models'));
     }
 }
