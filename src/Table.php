@@ -13,10 +13,11 @@ use Livewire\WithPagination;
 abstract class Table extends Component
 {
     use WithPagination,
-        Concerns\WithSearch;
+        Concerns\WithSearch,
+        Concerns\WithSorting;
 
     public bool $enablePagination = true;
-     public array $perPageOptions = [10, 25, 50];
+    public array $perPageOptions = [10, 25, 50];
     public int $perPage = 25;
 
     private static ?Closure $resolveDiscoverableNamespaceUsing = null;
@@ -41,7 +42,9 @@ abstract class Table extends Component
     {
         $query = $this->query();
 
+        // TODO automatically collect concerns handlers
         $this->applySearch($query);
+        $this->applySorting($query);
 
         return $this->enablePagination ?
             $query->paginate($this->perPage) :

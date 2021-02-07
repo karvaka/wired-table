@@ -14,6 +14,7 @@ class Column
     public string $alignment = 'left';
     public bool $searchable = false;
     public $searchUsing = null;
+    public bool $sortable = false;
 
     public function __construct(string $attribute, ?string $label = null)
     {
@@ -126,6 +127,13 @@ class Column
     {
         $this->searchable = true;
         $this->searchUsing = $callable;
+
+        return $this;
+    }
+
+    public function sortable(): self
+    {
+        $this->sortable = true;
 
         return $this;
     }

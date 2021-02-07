@@ -18,7 +18,20 @@
                         <tr>
                             @foreach($columns as $column)
                                 <th scope="col" class="px-6 py-3 text-{{ $column->alignment }} text-sm font-medium text-gray-500 tracking-wider">
-                                    {{ $column->label }}
+                                    @if($enableSorting && $column->sortable)
+                                        <span class="inline-flex items-center cursor-pointer space-x-1" wire:click="sortBy('{{ $column->attribute }}')">
+                                            <span>{{ $column->label }}</span>
+                                            @if($this->sortAttribute() === $column->attribute)
+                                                @if($this->sortDirection() === 'asc')
+                                                    <x-wired-table.icons.chevron-up class="w-4 h-4" />
+                                                @else
+                                                    <x-wired-table.icons.chevron-down class="w-4 h-4" />
+                                                @endif
+                                            @endif
+                                        </span>
+                                    @else
+                                        {{ $column->label }}
+                                    @endif
                                 </th>
                             @endforeach
                             <th scope="col" class="px-6 py-3">
