@@ -16,7 +16,7 @@ abstract class Table extends Component
         Concerns\WithSearch;
 
     public bool $enablePagination = true;
-    // public array $perPageOptions = [10, 25, 50];
+     public array $perPageOptions = [10, 25, 50];
     public int $perPage = 25;
 
     private static ?Closure $resolveDiscoverableNamespaceUsing = null;
