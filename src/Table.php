@@ -60,11 +60,11 @@ abstract class Table extends Component
 
     protected function resolveDiscoverableNamespace(string $class): string
     {
-        if (! is_null(static::$resolveDiscoverableNamespaceUsing)) {
-            return call_user_func_array(static::$resolveDiscoverableNamespaceUsing, [$class]);
-        }
+        $resolver = static::$resolveDiscoverableNamespaceUsing ?: function (string $class) {
+            return app()->getNamespace() . 'Models\\' . static::predictModelClassForComponent($class);
+        };
 
-        return app()->getNamespace() . 'Models\\' . static::predictModelClassForComponent($class);
+        return app()->call($resolver, ['class' => $class]);
     }
 
     public static function resolveDiscoverableModelUsing(Closure $callback): void
