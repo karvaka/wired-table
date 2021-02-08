@@ -13,12 +13,11 @@ use Livewire\WithPagination;
 abstract class Table extends Component
 {
     use WithPagination,
+        Concerns\WithPaginationPerPage,
         Concerns\WithSearch,
         Concerns\WithSorting;
 
     public bool $enablePagination = true;
-    public array $perPageOptions = [10, 25, 50];
-    public int $perPage = 25;
 
     private static ?Closure $resolveDiscoverableNamespaceUsing = null;
 
@@ -54,11 +53,6 @@ abstract class Table extends Component
     final private function getColumns(): Collection
     {
         return collect($this->columns());
-    }
-
-    public function updatingPerPage(): void
-    {
-        $this->resetPage();
     }
 
     protected function resolveDiscoverableNamespace(string $class): string
