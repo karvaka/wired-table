@@ -9,17 +9,17 @@ trait WithPaginationPerPage
 
     public function initializeWithPaginationPerPage(): void
     {
-        $this->perPage = session()->get($this->sessionKey(), $this->perPage);
+        $this->perPage = session()->get($this->perPageSessionKey(), $this->perPage);
     }
 
     public function updatedPerPage(): void
     {
         $this->resetPage();
 
-        session()->put($this->sessionKey(), $this->perPage);
+        session()->put($this->perPageSessionKey(), $this->perPage);
     }
 
-    private function sessionKey(): string
+    private function perPageSessionKey(): string
     {
         return 'wired-table.per-page.' . get_class($this);
     }
