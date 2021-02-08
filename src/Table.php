@@ -15,7 +15,8 @@ abstract class Table extends Component
     use WithPagination,
         Concerns\WithPaginationPerPage,
         Concerns\WithSearch,
-        Concerns\WithSorting;
+        Concerns\WithSorting,
+        Concerns\WithFilters;
 
     public bool $enablePagination = true;
 
@@ -43,6 +44,7 @@ abstract class Table extends Component
 
         // TODO automatically collect concerns handlers
         $this->applySearch($query);
+        $this->applyFilters($query);
         $this->applySorting($query);
 
         return $this->enablePagination ?
@@ -81,7 +83,8 @@ abstract class Table extends Component
     {
         return view('wired-table::table')->with([
             'models' => $this->getModels(),
-            'columns' => $this->getColumns()
+            'columns' => $this->getColumns(),
+            'filters' => $this->getFilters()
         ]);
     }
 }

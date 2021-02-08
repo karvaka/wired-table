@@ -33,6 +33,7 @@ class WiredTableServiceProvider extends ServiceProvider
             $this->registerComponent('icons.chevron-down');
             $this->registerComponent('icons.chevron-up');
             $this->registerComponent('icons.eye');
+            $this->registerComponent('icons.filter');
             $this->registerComponent('icons.pencil');
             $this->registerComponent('icons.refresh');
             $this->registerComponent('icons.search');
