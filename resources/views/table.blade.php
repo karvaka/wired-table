@@ -65,7 +65,7 @@
             </div>
             @if($enablePagination && $models->hasPages())
                 <div class="flex items-center justify-between bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-                    @includeIf($enablePerPage, 'wired-table::per-page-select')
+                    @includeWhen($enablePerPage, 'wired-table::per-page-select')
                     <div class="sm:w-full">
                         {{ $models->links() }}
                     </div>
