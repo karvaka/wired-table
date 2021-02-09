@@ -15,7 +15,8 @@ class DateFormatter extends Formatter
 
     public function getValue()
     {
-        // TODO safe check
-        return parent::getValue()->format($this->format);
+        $value = parent::getValue();
+
+        return $value instanceof \DateTimeInterface ? $value->format($this->format) : null;
     }
 }
