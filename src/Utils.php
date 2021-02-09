@@ -8,6 +8,7 @@ final class Utils
 {
     public static function humanize($attribute): string
     {
-        return Str::of($attribute)->snake()->replace(['_', '-', '.'], ' ')->ucfirst();
+        return (is_object($attribute) ? Str::of(class_basename($attribute)) : Str::of($attribute))
+            ->snake()->replace(['_', '-', '.'], ' ')->title();
     }
 }

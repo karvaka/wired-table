@@ -4,12 +4,15 @@ namespace Karvaka\Wired\Table\Concerns;
 
 trait WithPerPage
 {
+    public bool $enablePerPage = true;
     public array $perPageOptions = [10, 25, 50];
     public int $perPage = 25;
 
     public function initializeWithPaginationPerPage(): void
     {
-        $this->perPage = session()->get($this->perPageSessionKey(), $this->perPage);
+        if ($this->enablePerPage) {
+            $this->perPage = session()->get($this->perPageSessionKey(), $this->perPage);
+        }
     }
 
     public function updatedPerPage(): void

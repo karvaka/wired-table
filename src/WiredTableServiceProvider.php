@@ -31,6 +31,7 @@ class WiredTableServiceProvider extends ServiceProvider
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
             $this->registerComponent('icons.chevron-down');
+            $this->registerComponent('icons.chevron-right');
             $this->registerComponent('icons.chevron-up');
             $this->registerComponent('icons.eye');
             $this->registerComponent('icons.filter');

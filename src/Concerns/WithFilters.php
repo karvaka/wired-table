@@ -8,7 +8,7 @@ use Karvaka\Wired\Table\Filters\Filter;
 
 trait WithFilters
 {
-    public bool $enableFilters = false;
+    public bool $enableFilters = true;
     public array $filter = [];
 
     // TODO what if there is some rules in class?

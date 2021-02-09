@@ -4,6 +4,7 @@ namespace Karvaka\Wired\Table;
 
 use Closure;
 use BadMethodCallException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 abstract class Table extends Component
 {
     use WithPagination,
+        Concerns\WithActions,
         Concerns\WithColumns,
         Concerns\WithFilters,
         Concerns\WithPerPage,
@@ -47,6 +49,11 @@ abstract class Table extends Component
             $query->get();
     }
 
+    private function findModel($id): ?Model
+    {
+        return $this->query()->find($id);
+    }
+
     protected function resolveDiscoverableNamespace(string $class): string
     {
         $resolver = static::$resolveDiscoverableNamespaceUsing ?: function (string $class) {
@@ -71,6 +78,7 @@ abstract class Table extends Component
         return view('wired-table::table')->with([
             'models' => $this->getModels(),
             'columns' => $this->getColumns(),
+            'actions' => $this->getActions(),
             'filters' => $this->getFilters()
         ]);
     }

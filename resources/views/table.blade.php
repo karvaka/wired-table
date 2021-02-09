@@ -1,8 +1,9 @@
 <div>
-    @if($enableSearch || $enableFilters)
+    @if($enableSearch || $enableActions || $enableFilters)
         <div class="flex items-center justify-between mb-4">
             @includeWhen($enableSearch, 'wired-table::search')
-            @includeWhen($enableFilters, 'wired-table::filters')
+            @includeWhen($enableActions && $actions->isNotEmpty(), 'wired-table::actions-batch')
+            @includeWhen($enableFilters && $filters->isNotEmpty(), 'wired-table::filters')
         </div>
     @endif
     <div class="relative shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -11,6 +12,13 @@
                 <table class="table-auto min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
+                            @if($enableActions)
+                                <th scope="col" class="px-6 py-4">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" wire:click="toggleSelectAll" {{ $this->isSelectedAll() ? 'checked' : '' }} class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    </label>
+                                </th>
+                            @endif
                             @foreach($columns as $column)
                                 <th scope="col" class="px-6 py-3 text-{{ $column->alignment }} text-sm font-medium text-gray-500 tracking-wider">
                                     @if($enableSorting && $column->sortable)
@@ -37,21 +45,18 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach($models as $model)
                             <tr>
+                                @if($enableActions)
+                                    <th scope="col" class="px-6 py-4">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" value="{{ $model->getRouteKey() }}" wire:model="selectedModels" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        </label>
+                                    </th>
+                                @endif
                                 @foreach($columns as $column)
                                     <td class="px-6 py-4 text-{{ $column->alignment }} text-sm font-medium whitespace-nowrap">@include('wired-table::columns.' . $column->component, ['formatter' => $column->makeFormatter($model)])</td>
                                 @endforeach
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center justify-end space-x-3">
-                                        <a href="#" class="cursor-pointer text-gray-400 hover:text-gray-500">
-                                            <x-wired-table.icons.eye class="w-5 h-5" />
-                                        </a>
-                                        <a href="#" class="cursor-pointer text-gray-400 hover:text-gray-500">
-                                            <x-wired-table.icons.pencil class="w-5 h-5" />
-                                        </a>
-                                        <button class="cursor-pointer text-red-500 hover:text-red-600">
-                                            <x-wired-table.icons.trash class="w-5 h-5" />
-                                        </button>
-                                    </div>
+                                    @includeWhen($actions->where('inline', '=', true)->isNotEmpty(), 'wired-table::actions-inline')
                                 </td>
                             </tr>
                         @endforeach
@@ -60,7 +65,7 @@
             </div>
             @if($enablePagination && $models->hasPages())
                 <div class="flex items-center justify-between bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-                    @include('wired-table::per-page-select')
+                    @includeIf($enablePerPage, 'wired-table::per-page-select')
                     <div class="sm:w-full">
                         {{ $models->links() }}
                     </div>
@@ -69,7 +74,7 @@
         @else
             <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6 sm:rounded-lg">
                 <p class="text-sm text-gray-700 leading-5">
-                    {{ 'No results.' }}
+                    {{ __('No results.') }}
                 </p>
             </div>
         @endif
@@ -78,4 +83,5 @@
             <x-wired-table.icons.refresh wire:loading.delay="100" class="h-5 w-5 text-gray-400 animate-spin" />
         </div>
     </div>
+    @includeWhen($enableActions && $actions->isNotEmpty(), 'wired-table::actions-modals')
 </div>
