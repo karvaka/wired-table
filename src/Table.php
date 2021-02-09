@@ -13,6 +13,7 @@ use Livewire\WithPagination;
 abstract class Table extends Component
 {
     use WithPagination,
+        Concerns\WithColumns,
         Concerns\WithPaginationPerPage,
         Concerns\WithSearch,
         Concerns\WithSorting,
@@ -33,11 +34,6 @@ abstract class Table extends Component
         throw new BadMethodCallException('Method [[static::query()]] must return [[\Illuminate\Database\Eloquent\Builder]] instance.');
     }
 
-    public function columns(): array
-    {
-        return [];
-    }
-
     final private function getModels()
     {
         $query = $this->query();
@@ -50,11 +46,6 @@ abstract class Table extends Component
         return $this->enablePagination ?
             $query->paginate($this->perPage) :
             $query->get();
-    }
-
-    final private function getColumns(): Collection
-    {
-        return collect($this->columns());
     }
 
     protected function resolveDiscoverableNamespace(string $class): string
