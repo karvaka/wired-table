@@ -38,7 +38,7 @@
                         @foreach($models as $model)
                             <tr>
                                 @foreach($columns as $column)
-                                    <td class="px-6 py-4 text-{{ $column->alignment }} text-sm font-medium whitespace-nowrap">@include('wired-table::columns.' . $column->component)</td>
+                                    <td class="px-6 py-4 text-{{ $column->alignment }} text-sm font-medium whitespace-nowrap">@include('wired-table::columns.' . $column->component, ['formatter' => $column->makeFormatter($model)])</td>
                                 @endforeach
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-end space-x-3">

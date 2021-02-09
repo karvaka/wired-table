@@ -1,1 +1,1 @@
-{!! $column->formatValue($model) !!}
+{!! $formatter->getValue() !!}

@@ -4,7 +4,7 @@ namespace Karvaka\Wired\Table\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
-use Karvaka\Wired\Table\Column;
+use Karvaka\Wired\Table\Columns\Column;
 
 trait WithSearch
 {
