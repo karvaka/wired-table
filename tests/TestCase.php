@@ -34,7 +34,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function setUpDiscoverableModelCallback(): void
     {
         Table::resolveDiscoverableModelUsing(function (string $class) {
-            return 'Tests\\Fixtures\\Models\\' . Table::predictModelClassForComponent($class);
+            return 'Tests\\Fixtures\\Models\\' . Table::guessModelClassForComponent($class);
         });
     }
 

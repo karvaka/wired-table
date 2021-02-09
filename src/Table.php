@@ -60,7 +60,7 @@ abstract class Table extends Component
     protected function resolveDiscoverableNamespace(string $class): string
     {
         $resolver = static::$resolveDiscoverableNamespaceUsing ?: function (string $class) {
-            return app()->getNamespace() . 'Models\\' . static::predictModelClassForComponent($class);
+            return app()->getNamespace() . 'Models\\' . static::guessModelClassForComponent($class);
         };
 
         return app()->call($resolver, ['class' => $class]);
@@ -71,7 +71,7 @@ abstract class Table extends Component
         static::$resolveDiscoverableNamespaceUsing = $callback;
     }
 
-    public static function predictModelClassForComponent(string $class): string
+    public static function guessModelClassForComponent(string $class): string
     {
         return Str::of($class)
             ->classBasename()
