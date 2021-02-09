@@ -6,6 +6,13 @@ trait HasAlignment
 {
     public string $alignment = 'left';
 
+    public function align(string $alignment): self
+    {
+        $this->alignment = $alignment;
+
+        return $this;
+    }
+
     public function alignLeft(): self
     {
         $this->alignment = 'left';

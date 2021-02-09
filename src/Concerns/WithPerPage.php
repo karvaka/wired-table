@@ -2,7 +2,7 @@
 
 namespace Karvaka\Wired\Table\Concerns;
 
-trait WithPaginationPerPage
+trait WithPerPage
 {
     public array $perPageOptions = [10, 25, 50];
     public int $perPage = 25;

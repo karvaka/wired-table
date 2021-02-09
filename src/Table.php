@@ -4,7 +4,6 @@ namespace Karvaka\Wired\Table;
 
 use Closure;
 use BadMethodCallException;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
@@ -14,10 +13,10 @@ abstract class Table extends Component
 {
     use WithPagination,
         Concerns\WithColumns,
-        Concerns\WithPaginationPerPage,
+        Concerns\WithFilters,
+        Concerns\WithPerPage,
         Concerns\WithSearch,
-        Concerns\WithSorting,
-        Concerns\WithFilters;
+        Concerns\WithSorting;
 
     public bool $enablePagination = true;
 
@@ -64,10 +63,7 @@ abstract class Table extends Component
 
     public static function guessModelClassForComponent(string $class): string
     {
-        return Str::of($class)
-            ->classBasename()
-            ->replaceLast('Table', '')
-            ->singular();
+        return Str::of($class)->classBasename()->replaceLast('Table', '')->singular();
     }
 
     public function render()
