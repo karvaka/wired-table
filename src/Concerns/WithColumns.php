@@ -18,13 +18,13 @@ trait WithColumns
     final private function getColumns(): Collection
     {
         if (! count($this->columns())) {
-            return collect($this->defaultColumns());
+            return collect($this->guessColumns());
         }
 
         return collect($this->columns());
     }
 
-    public function defaultColumns(): array
+    public function guessColumns(): array
     {
         if (is_null($model = $this->query()->first())) {
             return [];
