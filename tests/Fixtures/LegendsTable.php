@@ -3,7 +3,7 @@
 namespace Tests\Fixtures;
 
 use Illuminate\Database\Eloquent\Builder;
-use Karvaka\Wired\Table\Column;
+use Karvaka\Wired\Table\Columns\Column;
 use Karvaka\Wired\Table\Table;
 
 class LegendsTable extends Table
