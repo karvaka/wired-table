@@ -50,8 +50,14 @@ trait WithSearch
                         $query->orWhere(function (Builder $query) use ($column) {
                             app()->call($column->searchUsing, ['query' => $query, 'criteria' => $this->searchCriteria()]);
                         });
-                    } else if(Str::contains($column->attribute, '*')) {
-                        // TODO search by relationships
+                    } else if(Str::contains($column->attribute, '.')) {
+                        $segments = explode('.', $column->attribute);
+                        $attribute = array_pop($segments);
+                        $relation = implode('.', $segments);
+
+                        $query->orWhereHas($relation, function (Builder $query) use ($attribute) {
+                            $query->where($attribute, 'like', '%' . $this->searchCriteria() . '%');
+                        });
                     } else {
                         $query->orWhere($column->attribute, 'like', '%' . $this->searchCriteria() . '%');
                     }
