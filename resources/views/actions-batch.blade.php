@@ -8,6 +8,6 @@
         @endforeach
     </select>
     <button type="button" wire:click="runBatchAction" class="inline-flex items-center px-4 py-2 bg-gray-50 shadow rounded-md font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-25 transition ease-in-out duration-150">
-        <x-wired-table.icons.chevron-right class="w-4 h-4" />
+        <x-heroicon-o-chevron-right class="w-4 h-4" />
     </button>
 </div>

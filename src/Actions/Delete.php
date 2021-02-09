@@ -9,7 +9,7 @@ class Delete extends Action
     public bool $destructive = true;
     public bool $confirmable = true;
 
-    public string $inlineComponent = 'wired-table.icons.trash';
+    public string $inlineComponent = 'heroicon-o-trash';
 
     public function handle(Model $model)
     {

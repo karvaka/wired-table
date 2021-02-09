@@ -26,9 +26,9 @@
                                             <span>{{ $column->label }}</span>
                                             @if($this->sortAttribute() === $column->attribute)
                                                 @if($this->sortDirection() === 'asc')
-                                                    <x-wired-table.icons.chevron-up class="w-3 h-3" />
+                                                    <x-heroicon-o-chevron-up class="w-3 h-3" />
                                                 @else
-                                                    <x-wired-table.icons.chevron-down class="w-3 h-3" />
+                                                    <x-heroicon-o-chevron-down class="w-3 h-3" />
                                                 @endif
                                             @endif
                                         </span>
@@ -79,8 +79,8 @@
             </div>
         @endif
         <div class="absolute top-0 right-0 inline-flex items-center p-3 space-x-3">
-            <x-wired-table.icons.status-offline wire:offline="" class="h-5 w-5 text-red-500 animate-pulse" />
-            <x-wired-table.icons.refresh wire:loading.delay="100" class="h-5 w-5 text-gray-400 animate-spin" />
+            <x-heroicon-o-status-offline wire:offline="" class="h-5 w-5 text-red-500 animate-pulse" />
+            <x-heroicon-o-refresh wire:loading.delay="100" class="h-5 w-5 text-gray-400 animate-spin" />
         </div>
     </div>
     @includeWhen($enableActions && $actions->isNotEmpty(), 'wired-table::actions-modals')

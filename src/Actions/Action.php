@@ -13,7 +13,7 @@ abstract class Action
     public bool $destructive = false;
     public bool $confirmable = false;
 
-    public string $inlineComponent = 'wired-table.icons.pencil';
+    public string $inlineComponent = 'heroicon-o-pencil';
 
     public function __construct()
     {

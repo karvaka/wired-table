@@ -1,7 +1,7 @@
 <div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
     <div @click="open = ! open">
         <button class="inline-flex items-center space-x-2 px-4 py-2 bg-white border-0 rounded-lg shadow font-semibold text-gray-400 text-sm focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-25 transition ease-in-out duration-150">
-            <x-wired-table.icons.filter class="w-5 h-5" />
+            <x-heroicon-o-filter class="w-5 h-5" />
             @if(count($filter))
                 <span class="font-semibold">{{ count($filter) }}</span>
             @endif
