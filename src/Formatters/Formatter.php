@@ -3,6 +3,8 @@
 namespace Karvaka\Wired\Table\Formatters;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Karvaka\Wired\Table\Columns\Column;
 
 class Formatter
@@ -18,15 +20,10 @@ class Formatter
 
     public function getValue()
     {
-        return $this->model->getAttribute($this->column->attribute);
+        try {
+            return data_get($this->model, $this->column->attribute);
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
-
-//    public function getValue()
-//    {
-//        $formatter = $this->column->formatter ?: function (Column $column, Model $model) {
-//            return $model->getAttribute($column->attribute);
-//        };
-//
-//        return app()->call($formatter, ['column' => $this->column, 'model' => $this->model]);
-//    }
 }
