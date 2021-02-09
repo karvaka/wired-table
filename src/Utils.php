@@ -8,6 +8,6 @@ final class Utils
 {
     public static function humanize($attribute): string
     {
-        return Str::of($attribute)->replace(['_', '-', '.'], ' ')->ucfirst();
+        return Str::of($attribute)->snake()->replace(['_', '-', '.'], ' ')->ucfirst();
     }
 }
