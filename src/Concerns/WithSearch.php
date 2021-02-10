@@ -38,7 +38,7 @@ trait WithSearch
 
     public function applySearch(Builder $query): void
     {
-        if (! $this->searchCriteria()) {
+        if (! $this->enableSearch || ! $this->searchCriteria()) {
             return;
         }
 

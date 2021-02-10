@@ -41,7 +41,7 @@ trait WithSorting
 
     public function applySorting(Builder $query): void
     {
-        if (! $this->sortAttribute()) {
+        if (! $this->enableSorting || ! $this->sortAttribute()) {
             return;
         }
 

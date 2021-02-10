@@ -46,6 +46,10 @@ trait WithFilters
 
     public function applyFilters(Builder $query): void
     {
+        if (! $this->enableFilters) {
+            return;
+        }
+
         $query->where(function (Builder $query) {
             $this->getFilters()->each(function (Filter $filter) use ($query) {
                 if (! $value = $this->filter[$filter->attribute] ?? null) {
