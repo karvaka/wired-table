@@ -1,6 +1,6 @@
 <div>
     @if($enableSearch || $enableActions || $enableFilters)
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0 mb-4">
             @includeWhen($enableSearch, 'wired-table::search')
             @includeWhen($enableActions && $actions->isNotEmpty(), 'wired-table::actions-batch')
             @includeWhen($enableFilters && $filters->isNotEmpty(), 'wired-table::filters')
@@ -9,7 +9,7 @@
     <div class="relative shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         @includeWhen($enableTabs && $tabs->isNotEmpty(), 'wired-table::tabs')
         @if($models->isNotEmpty())
-            <div class="overflow-auto">
+            <div class="overflow-x-auto">
                 <table class="table-auto min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>

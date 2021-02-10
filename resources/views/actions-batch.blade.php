@@ -1,8 +1,7 @@
-<div class="flex items-center justify-between sm:space-x-2 sm:mr-6">
-    <p class="text-sm text-gray-700 leading-5 whitespace-nowrap hidden sm:block">{{ __('Action') }}</p>
+<div class="flex items-center space-x-2 sm:mr-6">
     <select wire:model="batchAction"
             class="text-sm font-medium rounded-md border-0 shadow focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-        <option value="">{{ __('Select') }}</option>
+        <option value="">{{ __('Select action') }}</option>
         @foreach($actions->where('batch', '=', true) as $action)
             <option value="{{ $action->getName() }}">{{ $action->getTitle() }}</option>
         @endforeach
