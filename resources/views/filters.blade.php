@@ -22,16 +22,21 @@
          x-transition:leave-end="transform opacity-0 scale-95"
          class="absolute z-50 mt-2 w-72 rounded-md shadow-lg origin-top-right right-0"
          style="display: none;">
-        <div class="rounded-md shadow-xs py-1 bg-white">
-            <div class="p-4">
-                @foreach($filters as $filter)
-                    <div class="block px-4 py-2 text-xs text-gray-400">
-                        {{ __('Manage Account') }}
+        <div class="rounded-md shadow-xs px-4 py-2 bg-white">
+            @foreach($filters as $filter)
+                <div class="my-2">
+                    <div class="block text-xs text-gray-400">
+                        {{ $filter->label }}
                     </div>
 
-                    <x-dynamic-component :components="'wired-table.filters.' . $filter->component" />
-                @endforeach
-            </div>
+                    <div class="flex justify-content-between items-center mt-1">
+                        <x-dynamic-component :component="$filter->component" :filter="$filter" />
+                        <div class="ml-2">
+                            <x-heroicon-o-x class="w-4 h-4 cursor-pointer text-gray-500" wire:click="resetFilter('{{ $filter->attribute }}')" />
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>

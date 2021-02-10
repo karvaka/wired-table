@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 class DateFilter extends Filter
 {
-    public string $component = 'date';
+    public string $component = 'wired-table.filters.date';
 
     public function apply(Builder $query, $value): void
     {
-        // TODO
+        $query->whereDate($this->attribute, '=' , $value);
     }
 }

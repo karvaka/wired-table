@@ -4,14 +4,14 @@ namespace Karvaka\Wired\Table\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class SelectFilter extends Filter
+class BooleanFilter extends Filter
 {
     use Concerns\HasOptions;
 
-    public string $component = 'wired-table.filters.select';
+    public string $component = 'wired-table.filters.boolean';
 
     public function apply(Builder $query, $value): void
     {
-        $query->where($this->attribute, '=' , $value);
+        $query->whereIn($this->attribute, (array)$value);
     }
 }

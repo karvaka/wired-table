@@ -48,7 +48,11 @@ trait WithFilters
     {
         $query->where(function (Builder $query) {
             $this->getFilters()->each(function (Filter $filter) use ($query) {
-                $filter->apply($query, $this->filter[$filter->attribute] ?? null);
+                if (! $value = $this->filter[$filter->attribute] ?? null) {
+                    return;
+                }
+
+                $filter->apply($query, $value);
             });
         });
     }

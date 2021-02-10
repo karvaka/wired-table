@@ -30,7 +30,9 @@ class WiredTableServiceProvider extends ServiceProvider
     protected function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
-            //
+            $this->registerComponent('filters.boolean');
+            $this->registerComponent('filters.date');
+            $this->registerComponent('filters.select');
         });
     }
 
