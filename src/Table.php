@@ -18,7 +18,8 @@ abstract class Table extends Component
         Concerns\WithFilters,
         Concerns\WithPerPage,
         Concerns\WithSearch,
-        Concerns\WithSorting;
+        Concerns\WithSorting,
+        Concerns\WithTabs;
 
     public bool $enablePagination = true;
 
@@ -43,6 +44,7 @@ abstract class Table extends Component
         $this->applySearch($query);
         $this->applyFilters($query);
         $this->applySorting($query);
+        $this->applyTabs($query);
 
         return $this->enablePagination ?
             $query->paginate($this->perPage) :
@@ -79,7 +81,8 @@ abstract class Table extends Component
             'models' => $this->getModels(),
             'columns' => $this->getColumns(),
             'actions' => $this->getActions(),
-            'filters' => $this->getFilters()
+            'filters' => $this->getFilters(),
+            'tabs' => $this->getTabs(),
         ]);
     }
 }

@@ -7,6 +7,7 @@
         </div>
     @endif
     <div class="relative shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        @includeWhen($enableTabs && $tabs->isNotEmpty(), 'wired-table::tabs')
         @if($models->isNotEmpty())
             <div class="overflow-auto">
                 <table class="table-auto min-w-full divide-y divide-gray-200">
