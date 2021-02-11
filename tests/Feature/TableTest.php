@@ -1,28 +1,16 @@
 <?php
 
-namespace Tests;
+namespace Tests\Feature;
 
+use Tests\TestCase;
 use Tests\Fixtures\Models\Legend;
-use Tests\Fixtures\UnknownTable;
 use Tests\Fixtures\LegendsTable;
 use Livewire\Livewire;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TableTest extends TestCase
 {
-    public function testQueryDiscovered(): void
-    {
-        $table = new LegendsTable;
-
-        $this->assertInstanceOf(Builder::class, $table->query());
-    }
-
-    public function testThrowsExceptionIfQueryNotDiscovered(): void
-    {
-        $this->expectException(\BadMethodCallException::class);
-
-        (new UnknownTable)->query();
-    }
+    use RefreshDatabase;
 
     public function testRendersPaginator(): void
     {
@@ -50,6 +38,6 @@ class TableTest extends TestCase
     {
         $test = Livewire::test(LegendsTable::class);
 
-        $test->assertSee('No results.');
+        $test->assertSee('No records was found.');
     }
 }

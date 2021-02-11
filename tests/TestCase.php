@@ -2,16 +2,16 @@
 
 namespace Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Karvaka\Wired\Table\Table;
 use Karvaka\Wired\Table\WiredTableServiceProvider;
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
 use Livewire\LivewireServiceProvider;
+use Laravel\Jetstream\JetstreamServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -42,6 +42,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             LivewireServiceProvider::class,
+            JetstreamServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            BladeHeroiconsServiceProvider::class,
             WiredTableServiceProvider::class
         ];
     }

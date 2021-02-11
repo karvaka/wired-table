@@ -1,14 +1,18 @@
 <?php
 
-namespace Tests;
+namespace Tests\Feature\Concerns;
 
-use Livewire\Livewire;
+use Tests\TestCase;
 use Tests\Fixtures\LegendsTable;
 use Tests\Fixtures\Models\Legend;
 use Tests\Seeders\LegendsSeeder;
+use Livewire\Livewire;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TableWithSearchTest extends TestCase
+class WithSearchTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testSearch(): void
     {
         $this->seed(LegendsSeeder::class);

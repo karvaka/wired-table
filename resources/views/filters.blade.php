@@ -26,7 +26,7 @@
             @foreach($filters as $filter)
                 <div class="my-2">
                     <div class="block text-xs text-gray-400">
-                        {{ $filter->label }}
+                        {{ __($filter->label) }}
                     </div>
 
                     <div class="flex justify-content-between items-center mt-1">

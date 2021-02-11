@@ -6,5 +6,7 @@
   "No records was found.": "Записей не найдено.",
   "Are you sure you want to perform this action?": "Вы уверены, что хотите выполнить это действие?",
   "Cancel": "Отменить",
-  "Run": "Запустить"
+  "Run": "Запустить",
+  "Delete": "Удалить",
+  "Restore": "Восстановить"
 }
