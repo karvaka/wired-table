@@ -2,6 +2,10 @@
 
 namespace Karvaka\Wired\Table;
 
+use Karvaka\Wired\Table\Console\{
+    MakeActionCommand,
+    MakeTableCommand
+};
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -18,6 +22,7 @@ class WiredTableServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerTranslations();
         $this->registerComponents();
+        $this->registerCommands();
         $this->registerPublishing();
     }
 
@@ -47,6 +52,18 @@ class WiredTableServiceProvider extends ServiceProvider
     protected function registerComponent(string $component)
     {
         Blade::component('wired-table::components.'.$component, 'wired-table.'.$component);
+    }
+
+    protected function registerCommands(): void
+    {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->commands([
+            MakeActionCommand::class,
+            MakeTableCommand::class
+        ]);
     }
 
     protected function registerPublishing(): void

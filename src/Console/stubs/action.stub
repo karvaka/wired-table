@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ namespace }};
+
+use Karvaka\Wired\Table\Actions\Action;
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }} extends Action
+{
+    public function handle(Model $model): void
+    {
+        //
+    }
+
+    public function canHandle(Model $model): bool
+    {
+        return true;
+    }
+}

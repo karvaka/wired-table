@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use Karvaka\Wired\Table\Table;
+
+class {{ class }} extends Table
+{
+    public function columns(): array
+    {
+        return [];
+    }
+
+    public function actions(): array
+    {
+        return [];
+    }
+
+    public function filters(): array
+    {
+        return [];
+    }
+}
