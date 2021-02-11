@@ -4,10 +4,13 @@ namespace Karvaka\Wired\Table\Actions;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Karvaka\Wired\Table\Columns\Concerns\HasVisibility;
 use Karvaka\Wired\Table\Utils;
 
 abstract class Action
 {
+    use HasVisibility;
+
     public bool $batch = true;
     public bool $inline = true;
     public bool $destructive = false;
@@ -28,13 +31,17 @@ abstract class Action
     public function perform(Collection $models): void
     {
         $models->each(function (Model $model) {
-            $this->handle($model);
+            if ($this->canHandle($model)) {
+                $this->handle($model);
+            }
         });
     }
 
-    public function handle(Model $model)
+    abstract public function handle(Model $model): void;
+
+    public function canHandle(Model $model): bool
     {
-        //
+        return true;
     }
 
     public function getTitle(): string

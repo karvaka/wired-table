@@ -16,8 +16,9 @@ trait WithTabs
         if ($this->enableTabs) {
             $default = ! is_null($this->getDefaultTab()) ? $this->getDefaultTab()->attribute : null;
 
-            $this->tab = $default;
             $this->queryString = array_merge($this->queryString, ['tab' => ['except' => $default]]);
+
+            $this->tab = $this->resolveTab($default);
         }
     }
 
@@ -55,9 +56,9 @@ trait WithTabs
         return $tab->attribute === $this->tab;
     }
 
-    public function resolveTab()
+    public function resolveTab($default = null)
     {
-        return request()->query('tab', $this->tab ?: (! is_null($this->getDefaultTab()) ? $this->getDefaultTab()->attribute : null));
+        return request()->query('tab', $this->tab ?: $default);
     }
 
     public function applyTabs(Builder $query): void

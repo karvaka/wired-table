@@ -5,6 +5,8 @@ namespace Karvaka\Wired\Table\Concerns;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Karvaka\Wired\Table\Actions\Action;
+use Karvaka\Wired\Table\Actions\Delete;
+use Karvaka\Wired\Table\Actions\Restore;
 
 trait WithActions
 {
@@ -23,7 +25,11 @@ trait WithActions
 
     public function getActions(): Collection
     {
-        return collect($this->actions());
+        $actions =  collect($this->actions());
+
+        $actions = $actions->merge($this->defaultActions());
+
+        return $actions;
     }
 
     public function batchActionBeingPerformed(): ?Action
@@ -93,7 +99,10 @@ trait WithActions
 
     public function performInlineAction(): void
     {
-        if (is_null($model = $this->findModel($this->inlineModelId)) || is_null($action = $this->inlineActionBeingPerformed())) {
+        $model = $this->findModel($this->inlineModelId);
+        $action = $this->inlineActionBeingPerformed();
+
+        if (is_null($model) || is_null($action)) {
             $this->inlineModelId = null;
             $this->inlineAction = null;
             return;
@@ -131,5 +140,13 @@ trait WithActions
         return $this->getModels()->map(function (Model $model) {
             return (string)$model->getRouteKey();
         })->toArray();
+    }
+
+    private function defaultActions(): array
+    {
+        return [
+            Delete::make(),
+            Restore::make()
+        ];
     }
 }

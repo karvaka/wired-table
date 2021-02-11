@@ -11,8 +11,13 @@ class Delete extends Action
 
     public string $inlineComponent = 'heroicon-o-trash';
 
-    public function handle(Model $model)
+    public function handle(Model $model): void
     {
         $model->delete();
+    }
+
+    public function canHandle(Model $model): bool
+    {
+        return method_exists($model, 'trashed') && ! $model->trashed();
     }
 }

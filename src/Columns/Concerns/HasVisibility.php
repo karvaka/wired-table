@@ -12,4 +12,18 @@ trait HasVisibility
 
         return $this;
     }
+
+//    public function visibleIf(callable $callback): self
+//    {
+//        $this->visible = value($callback);
+//
+//        return $this;
+//    }
+
+    public function hidden(): self
+    {
+        $this->visible = false;
+
+        return $this;
+    }
 }
