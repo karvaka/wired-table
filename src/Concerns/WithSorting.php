@@ -49,6 +49,8 @@ trait WithSorting
             return;
         }
 
+        // TODO call custom handler
+
         $query->orderBy($this->sortAttribute(), $this->sortDirection());
     }
 }
