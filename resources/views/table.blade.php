@@ -75,7 +75,7 @@
         @else
             <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6 sm:rounded-lg">
                 <p class="text-sm text-gray-700 leading-5">
-                    {{ __('No results.') }}
+                    {{ __('No records was found.') }}
                 </p>
             </div>
         @endif

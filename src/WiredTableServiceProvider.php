@@ -16,6 +16,7 @@ class WiredTableServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerViews();
+        $this->registerTranslations();
         $this->registerComponents();
         $this->registerPublishing();
     }
@@ -24,6 +25,13 @@ class WiredTableServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(
             __DIR__ . '/../resources/views', 'wired-table'
+        );
+    }
+
+    protected function registerTranslations(): void
+    {
+        $this->loadJsonTranslationsFrom(
+            __DIR__ . '/../resources/lang'
         );
     }
 

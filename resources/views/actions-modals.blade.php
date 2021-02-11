@@ -11,7 +11,7 @@
 
             <x-slot name="footer">
                 <x-jet-secondary-button wire:click="$toggle('confirmingBatchAction')" wire:loading.attr="disabled">
-                    {{ __('Nevermind') }}
+                    {{ __('Cancel') }}
                 </x-jet-secondary-button>
 
                 <x-jet-danger-button class="ml-2" wire:click="performBatchAction" wire:loading.attr="disabled">
@@ -33,7 +33,7 @@
 
             <x-slot name="footer">
                 <x-jet-secondary-button wire:click="$toggle('confirmingInlineAction')" wire:loading.attr="disabled">
-                    {{ __('Nevermind') }}
+                    {{ __('Cancel') }}
                 </x-jet-secondary-button>
 
                 <x-dynamic-component :component="$this->inlineActionBeingPerformed()->destructive ? 'jet-danger-button' : 'jet-button'" class="ml-2" wire:click="performInlineAction" wire:loading.attr="disabled">
