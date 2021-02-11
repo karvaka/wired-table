@@ -2,7 +2,9 @@
 
 namespace Karvaka\Wired\Table\Concerns;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Karvaka\Wired\Table\Columns\Column;
 use Karvaka\Wired\Table\Columns\Date;
 use Karvaka\Wired\Table\Columns\DateTime;
@@ -45,5 +47,28 @@ trait WithColumns
                         return Column::make($attribute);
                 }
             })->toArray();
+    }
+
+    public function applyColumns(Builder $query): void
+    {
+        $this->applyAggregateColumns($query);
+    }
+
+    private function applyAggregateColumns(Builder $query): void
+    {
+        // TODO 'max', 'min', 'sum', 'avg'
+        // https://laravel.com/docs/8.x/eloquent-relationships#aggregating-related-models
+
+        $aggregated = $this->getColumns()->filter(function (Column $column) {
+            return Str::of($column->attribute)->endsWith('_count');
+        });
+
+        $relations = $aggregated->map(function (Column $column) {
+            return (string)Str::of($column->attribute)->replaceLast('_count', '');
+        })->toArray();
+
+        if (count($relations)) {
+            $query->withAggregate($relations, '*', 'count');
+        }
     }
 }
