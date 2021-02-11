@@ -8,7 +8,7 @@ class SelectFilter extends Filter
 {
     use Concerns\HasOptions;
 
-    public string $component = 'wired-table.filters.select';
+    public string $component = 'wired-table-select-filter';
 
     public function apply(Builder $query, $value): void
     {

@@ -49,7 +49,7 @@ abstract class Table extends Component
         $this->applyTabs($query);
 
         return $this->enablePagination ?
-            $query->paginate($this->perPage) :
+            $query->paginate($this->enablePerPage ? $this->perPage : null) :
             $query->get();
     }
 

@@ -43,15 +43,15 @@ class WiredTableServiceProvider extends ServiceProvider
     protected function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
-            $this->registerComponent('filters.boolean');
-            $this->registerComponent('filters.date');
-            $this->registerComponent('filters.select');
+            $this->registerComponent('boolean-filter');
+            $this->registerComponent('date-filter');
+            $this->registerComponent('select-filter');
         });
     }
 
     protected function registerComponent(string $component)
     {
-        Blade::component('wired-table::components.'.$component, 'wired-table.'.$component);
+        Blade::component('wired-table::components.'.$component, 'wired-table-'.$component);
     }
 
     protected function registerCommands(): void
