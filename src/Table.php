@@ -42,11 +42,14 @@ abstract class Table extends Component
 
         // TODO if pagination enabled, page > 1 and there is no results force goto last page
 
-        // TODO automatically collect concerns handlers
-        $this->applySearch($query);
-        $this->applyFilters($query);
-        $this->applySorting($query);
-        $this->applyTabs($query);
+        collect(class_uses_recursive($class = static::class))->each(function (string $trait) use ($query) {
+            $concern = Str::of($trait)->classBasename();
+
+            if ($concern->startsWith('With') &&
+                method_exists($trait, $method = 'apply'.$concern->replaceFirst('With', ''))) {
+                $this->{$method}($query);
+            }
+        });
 
         return $this->enablePagination ?
             $query->paginate($this->enablePerPage ? $this->perPage : null) :
