@@ -40,6 +40,8 @@ abstract class Table extends Component
     {
         $query = $this->query();
 
+        // TODO if pagination enabled, page > 1 and there is no results force goto last page
+
         // TODO automatically collect concerns handlers
         $this->applySearch($query);
         $this->applyFilters($query);
@@ -53,7 +55,7 @@ abstract class Table extends Component
 
     private function findModel($id): ?Model
     {
-        return $this->query()->find($id);
+        return $this->getModels()->find($id);
     }
 
     protected function resolveDiscoverableNamespace(string $class): string
