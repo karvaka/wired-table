@@ -3,13 +3,11 @@
 namespace Karvaka\Wired\Table\Columns;
 
 use Illuminate\Database\Eloquent\Model;
-use Karvaka\Wired\Table\Formatters\EmailFormatter;
-use Karvaka\Wired\Table\Formatters\LinkFormatter;
 
 class Email extends Link
 {
-    public function makeFormatter(Model $model): LinkFormatter
+    public function getLink(Model $model)
     {
-        return new EmailFormatter($this, $model);
+        return 'mailto:' . parent::getLink($model);
     }
 }

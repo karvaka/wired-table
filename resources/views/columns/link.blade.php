@@ -1,1 +1,1 @@
-<a href="{{ $formatter->getHref() }}">{{ $formatter->getValue() }}</a>
+<a href="{{ $link }}">{{ $value }}</a>

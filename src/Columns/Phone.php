@@ -3,13 +3,11 @@
 namespace Karvaka\Wired\Table\Columns;
 
 use Illuminate\Database\Eloquent\Model;
-use Karvaka\Wired\Table\Formatters\LinkFormatter;
-use Karvaka\Wired\Table\Formatters\PhoneFormatter;
 
 class Phone extends Link
 {
-    public function makeFormatter(Model $model): LinkFormatter
+    public function getLink(Model $model)
     {
-        return new PhoneFormatter($this, $model);
+        return 'tel:' . parent::getLink($model);
     }
 }

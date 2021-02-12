@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Concerns;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use Tests\Fixtures\LegendsTable;
@@ -9,7 +9,7 @@ use Tests\Seeders\LegendsSeeder;
 use Livewire\Livewire;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class WithSearchTest extends TestCase
+class TableWithSearchTest extends TestCase
 {
     use RefreshDatabase;
 

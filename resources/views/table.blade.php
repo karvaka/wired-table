@@ -54,7 +54,7 @@
                                     </th>
                                 @endif
                                 @foreach($columns as $column)
-                                    <td class="px-6 py-4 text-{{ $column->alignment }} text-sm font-medium whitespace-nowrap">@include('wired-table::columns.' . $column->component, ['formatter' => $column->makeFormatter($model)])</td>
+                                    <td class="px-6 py-4 text-{{ $column->alignment }} text-sm font-medium whitespace-nowrap">{!! $column->renderCell($model) !!}</td>
                                 @endforeach
                                 <td class="px-6 py-4">
                                     @includeWhen($actions->where('inline', '=', true)->isNotEmpty(), 'wired-table::actions-inline')

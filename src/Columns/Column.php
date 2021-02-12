@@ -3,7 +3,6 @@
 namespace Karvaka\Wired\Table\Columns;
 
 use Karvaka\Wired\Table\Utils;
-use Karvaka\Wired\Table\Formatters\Formatter;
 use Illuminate\Database\Eloquent\Model;
 
 class Column
@@ -15,12 +14,12 @@ class Column
 
     public string $attribute;
     public string $label;
-    public string $component = 'content';
+    public string $component = 'wired-table::columns.content';
 
     public function __construct(string $attribute, ?string $label = null)
     {
         $this->attribute = $attribute;
-        $this->label = $label ?? Utils::humanize($attribute);
+        $this->label = $label ?: Utils::humanize($attribute);
     }
 
     public static function make(string $attribute, ?string $label = null): self
@@ -42,8 +41,20 @@ class Column
         return $this;
     }
 
-    public function makeFormatter(Model $model): Formatter
+    public function renderCell(Model $model)
     {
-        return new Formatter($this, $model);
+        return view($this->component, [
+            'model' => $model,
+            'value' => $this->getValue($model)
+        ]);
+    }
+
+    public function getValue(Model $model)
+    {
+        try {
+            return data_get($model, $this->attribute);
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 }

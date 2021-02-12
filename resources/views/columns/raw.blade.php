@@ -1,1 +1,1 @@
-{!! $formatter->getValue() !!}
+{!! $value !!}

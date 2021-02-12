@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Boolean extends Column
 {
-    public $trueValue = true;
-    public $falseValue = false;
+    public $trueValue = 'Yes';
+    public $falseValue = 'No';
 
     public function trueValue($value): self
     {
@@ -23,8 +23,8 @@ class Boolean extends Column
         return $this;
     }
 
-    public function formatValue(Model $model)
+    public function getValue(Model $model)
     {
-        return (bool)$model->getAttribute($this->attribute) ? $this->trueValue : $this->falseValue;
+        return (bool)parent::getValue($model) ? $this->trueValue : $this->falseValue;
     }
 }

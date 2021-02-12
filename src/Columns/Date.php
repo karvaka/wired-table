@@ -3,15 +3,15 @@
 namespace Karvaka\Wired\Table\Columns;
 
 use Illuminate\Database\Eloquent\Model;
-use Karvaka\Wired\Table\Formatters\DateFormatter;
-use Karvaka\Wired\Table\Formatters\Formatter;
 
 class Date extends Column
 {
     public string $format = 'Y-m-d';
 
-    public function makeFormatter(Model $model): Formatter
+    public function getValue(Model $model)
     {
-        return (new DateFormatter($this, $model))->format($this->format);
+        $value = parent::getValue($model);
+
+        return $value instanceof \DateTimeInterface ? $value->format($this->format) : null;
     }
 }

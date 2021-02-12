@@ -5,10 +5,13 @@ namespace Karvaka\Wired\Table\Concerns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Karvaka\Wired\Table\Columns\Column;
-use Karvaka\Wired\Table\Columns\Date;
-use Karvaka\Wired\Table\Columns\DateTime;
-use Karvaka\Wired\Table\Columns\Number;
+use Karvaka\Wired\Table\Columns\{
+    Boolean,
+    Column,
+    Date,
+    DateTime,
+    Number
+};
 
 trait WithColumns
 {
@@ -40,6 +43,8 @@ trait WithColumns
                         return Number::make($attribute);
                     case $model->hasCast($attribute, 'date'):
                         return Date::make($attribute);
+                    case $model->hasCast($attribute, ['bool', 'boolean']):
+                        return Boolean::make($attribute);
                     case $model->hasCast($attribute, ['datetime', 'custom_datetime', 'timestamp']):
                         // TODO doesn't work with default timestamps
                         return DateTime::make($attribute);
@@ -51,10 +56,10 @@ trait WithColumns
 
     public function applyColumns(Builder $query): void
     {
-        $this->applyAggregateColumns($query);
+        $this->applyAggregatedColumns($query);
     }
 
-    private function applyAggregateColumns(Builder $query): void
+    private function applyAggregatedColumns(Builder $query): void
     {
         // TODO 'max', 'min', 'sum', 'avg'
         // https://laravel.com/docs/8.x/eloquent-relationships#aggregating-related-models
