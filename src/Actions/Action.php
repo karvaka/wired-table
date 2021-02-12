@@ -37,6 +37,8 @@ abstract class Action
         });
     }
 
+    // TODO refactor
+    // consider use only perform method
     abstract public function handle(Model $model): void;
 
     public function canHandle(Model $model): bool

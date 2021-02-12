@@ -14,7 +14,7 @@
                     <thead class="bg-gray-50">
                         <tr>
                             @if($enableActions)
-                                <th scope="col" class="px-6 py-4">
+                                <th scope="col" class="px-6 py-4 w-10">
                                     <label class="flex items-center">
                                         <input type="checkbox" wire:click="toggleSelectAll" {{ $this->isSelectedAll() ? 'checked' : '' }} class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     </label>
@@ -47,7 +47,7 @@
                         @foreach($models as $model)
                             <tr>
                                 @if($enableActions)
-                                    <th scope="col" class="px-6 py-4">
+                                    <th scope="col" class="px-6 py-4 w-10">
                                         <label class="flex items-center">
                                             <input type="checkbox" value="{{ $model->getRouteKey() }}" wire:model="selectedModels" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                         </label>

@@ -18,6 +18,6 @@ class Delete extends Action
 
     public function canHandle(Model $model): bool
     {
-        return method_exists($model, 'trashed') && ! $model->trashed();
+        return method_exists($model, 'trashed') ? ! $model->trashed() : true;
     }
 }
