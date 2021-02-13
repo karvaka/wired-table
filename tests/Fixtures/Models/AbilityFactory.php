@@ -11,7 +11,7 @@ class AbilityFactory extends Factory
     public function definition(): array
     {
         return [
-            'legend_id' => Legend::factory(),
+            'legend_id' => Character::factory(),
             'name' => $this->faker->name,
             'type' => $this->faker->randomElement(Ability::types())
         ];

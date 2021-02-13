@@ -1,6 +1,6 @@
 <?php
 
-namespace Karvaka\Wired\Table\Concerns;
+namespace Karvaka\Wired\Table\Components\Concerns;
 
 use Karvaka\Wired\Table\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Karvaka\Wired\Table;
+namespace Karvaka\Wired\Table\Components;
 
 use Closure;
 use BadMethodCallException;

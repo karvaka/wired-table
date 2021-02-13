@@ -6,24 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Legend extends Model
+class Character extends Model
 {
     use HasFactory;
 
-    const CLASS_OFFENSIVE = 'offensive';
-    const CLASS_DEFENSIVE = 'defensive';
+    const CLASS_TANK = 'tank';
+    const CLASS_DAMAGE = 'damage';
     const CLASS_SUPPORT = 'support';
-    const CLASS_RECON = 'recon';
 
     protected $guarded = ['id'];
 
     public static function classes(): array
     {
         return [
-            static::CLASS_OFFENSIVE,
-            static::CLASS_DEFENSIVE,
-            static::CLASS_SUPPORT,
-            static::CLASS_RECON
+            static::CLASS_TANK,
+            static::CLASS_DAMAGE,
+            static::CLASS_SUPPORT
         ];
     }
 

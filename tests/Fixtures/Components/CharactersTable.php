@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Fixtures;
+namespace Tests\Fixtures\Components;
 
 use Illuminate\Database\Eloquent\Builder;
 use Karvaka\Wired\Table\Columns\Column;
-use Karvaka\Wired\Table\Table;
+use Karvaka\Wired\Table\Components\Table;
 
-class LegendsTable extends Table
+class CharactersTable extends Table
 {
     public function columns(): array
     {

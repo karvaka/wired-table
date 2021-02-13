@@ -21,8 +21,8 @@ class Ability extends Model
         ];
     }
 
-    public function legend(): BelongsTo
+    public function character(): BelongsTo
     {
-        return $this->belongsTo(Legend::class);
+        return $this->belongsTo(Character::class);
     }
 }

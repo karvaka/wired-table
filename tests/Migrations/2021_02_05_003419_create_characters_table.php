@@ -1,11 +1,11 @@
 <?php
 
-use Tests\Fixtures\Models\Legend;
+use Tests\Fixtures\Models\Character;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLegendsTable extends Migration
+class CreateCharactersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,11 @@ class CreateLegendsTable extends Migration
      */
     public function up()
     {
-        Schema::create('legends', function (Blueprint $table) {
+        Schema::create('characters', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('occupation');
-            $table->enum('class', Legend::classes());
+            $table->enum('class', Character::classes());
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateLegendsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('legends');
+        Schema::dropIfExists('characters');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Karvaka\Wired\Table\Concerns;
+namespace Karvaka\Wired\Table\Components\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;

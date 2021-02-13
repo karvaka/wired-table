@@ -16,7 +16,7 @@ class CreateAbilitiesTable extends Migration
     {
         Schema::create('abilities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('legend_id');
+            $table->foreignId('character_id');
             $table->string('name');
             $table->enum('type', Ability::types());
             $table->timestamps();

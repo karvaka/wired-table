@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Karvaka\Wired\Table\Table;
+use Karvaka\Wired\Table\Components\Table;
 use Karvaka\Wired\Table\WiredTableServiceProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;

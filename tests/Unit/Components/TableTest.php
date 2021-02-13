@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Components;
 
 use Tests\TestCase;
-use Tests\Fixtures\UnknownTable;
-use Tests\Fixtures\LegendsTable;
+use Tests\Fixtures\Components\UnknownTable;
+use Tests\Fixtures\Components\CharactersTable;
 use Illuminate\Database\Eloquent\Builder;
 
 class TableTest extends TestCase
 {
     public function testQueryCanBeDiscovered(): void
     {
-        $table = new LegendsTable;
+        $table = new CharactersTable;
 
         $this->assertInstanceOf(Builder::class, $table->query());
     }
@@ -23,8 +23,8 @@ class TableTest extends TestCase
         (new UnknownTable)->query();
     }
 
-    public function testGetModelsAppliesTraitsQueryModifiers()
-    {
-        //
-    }
+//    public function testGetModelsAppliesTraitsQueryModifiers(): void
+//    {
+//        //
+//    }
 }
