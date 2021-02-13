@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use Karvaka\Wired\Table\Table;
+use Karvaka\Wired\Table\Components\Table;
 
 class {{ class }} extends Table
 {
