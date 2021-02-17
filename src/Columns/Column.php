@@ -19,7 +19,7 @@ class Column
     public function __construct(string $attribute, ?string $label = null)
     {
         $this->attribute = $attribute;
-        $this->label = $label ?: Utils::humanize($attribute);
+        $this->label = $label ?? Utils::humanize($attribute);
     }
 
     public static function make(string $attribute, ?string $label = null): self
