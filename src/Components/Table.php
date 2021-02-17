@@ -84,8 +84,8 @@ abstract class Table extends Component
     {
         return view('wired-table::table')->with([
             'models' => $this->getModels(),
-            'columns' => $this->getColumns(),
-            'actions' => $this->getActions(),
+            'columns' => $this->getColumns()->where('visible', '=', true),
+            'actions' => $this->getActions()->where('visible', '=', true),
             'filters' => $this->getFilters(),
             'tabs' => $this->getTabs(),
         ]);
