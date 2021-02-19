@@ -2,6 +2,7 @@
 
 namespace {{ namespace }};
 
+use Karvaka\Wired\Table\Actions\Delete;
 use Karvaka\Wired\Table\Components\Table;
 
 class {{ class }} extends Table
@@ -11,7 +12,7 @@ class {{ class }} extends Table
         return [];
     }
 
-    public function actions(): array
+    public function tabs(): array
     {
         return [];
     }
@@ -19,5 +20,12 @@ class {{ class }} extends Table
     public function filters(): array
     {
         return [];
+    }
+
+    public function actions(): array
+    {
+        return [
+            new Delete
+        ];
     }
 }
