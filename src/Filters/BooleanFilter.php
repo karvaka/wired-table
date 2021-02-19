@@ -8,7 +8,7 @@ class BooleanFilter extends Filter
 {
     use Concerns\HasOptions;
 
-    public string $component = 'wired-table-boolean-filter';
+    public string $defaultComponent = 'wired-table-boolean-filter';
 
     public function apply(Builder $query, $value): void
     {

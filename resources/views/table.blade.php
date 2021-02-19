@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0 mb-4">
             @includeWhen($enableSearch, 'wired-table::search')
             @includeWhen($enableActions && $actions->isNotEmpty(), 'wired-table::actions-batch')
-            @includeWhen($enableFilters && $filters->isNotEmpty(), 'wired-table::filters')
+            @includeWhen($enableFilters && $actions->filter(fn ($action) => $action->isBatch())->isNotEmpty(), 'wired-table::filters')
         </div>
     @endif
     <div class="relative shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -21,11 +21,11 @@
                                 </th>
                             @endif
                             @foreach($columns as $column)
-                                <th scope="col" class="px-6 py-3 text-{{ $column->alignment }} text-sm font-medium text-gray-500 tracking-wider">
-                                    @if($enableSorting && $column->sortable)
-                                        <span class="inline-flex items-center cursor-pointer space-x-1" wire:click="sortBy('{{ $column->attribute }}')">
-                                            <span>{{ $column->label }}</span>
-                                            @if($this->sortAttribute() === $column->attribute)
+                                <th scope="col" class="px-6 py-3 text-{{ $column->getAlignment() }} text-sm font-medium text-gray-500 tracking-wider">
+                                    @if($enableSorting && $column->isSortable())
+                                        <span class="inline-flex items-center cursor-pointer space-x-1" wire:click="sortBy('{{ $column->getAttribute() }}')">
+                                            <span>{{ $column->getLabel() }}</span>
+                                            @if($this->sortAttribute() === $column->getAttribute())
                                                 @if($this->sortDirection() === 'asc')
                                                     <x-heroicon-o-chevron-up class="w-3 h-3" />
                                                 @else
@@ -34,7 +34,7 @@
                                             @endif
                                         </span>
                                     @else
-                                        {{ $column->label }}
+                                        {{ $column->getLabel() }}
                                     @endif
                                 </th>
                             @endforeach
@@ -54,10 +54,10 @@
                                     </th>
                                 @endif
                                 @foreach($columns as $column)
-                                    <td class="px-6 py-4 text-{{ $column->alignment }} text-sm font-medium whitespace-nowrap">{!! $column->renderCell($model) !!}</td>
+                                    <td class="px-6 py-4 text-{{ $column->getAlignment() }} text-sm font-medium whitespace-nowrap">{!! $column->renderCell($model) !!}</td>
                                 @endforeach
                                 <td class="px-6 py-4">
-                                    @includeWhen($actions->where('inline', '=', true)->isNotEmpty(), 'wired-table::actions-inline')
+                                    @includeWhen($actions->filter(fn ($action) => $action->isInline())->isNotEmpty(), 'wired-table::actions-inline')
                                 </td>
                             </tr>
                         @endforeach

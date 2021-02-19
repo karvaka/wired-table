@@ -17,9 +17,9 @@ trait WithPerPage
 
     public function updatedPerPage(): void
     {
-        $this->resetPage();
-
         session()->put($this->perPageSessionKey(), $this->perPage);
+
+        $this->emitSelf('perPageChanged');
     }
 
     private function perPageSessionKey(): string

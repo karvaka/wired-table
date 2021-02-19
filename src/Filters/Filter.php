@@ -4,12 +4,14 @@ namespace Karvaka\Wired\Table\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Karvaka\Wired\Table\Utils;
+use Karvaka\Wired\Table\Concerns\{HasComponent, HasAttribute, HasLabel, HasVisibility};
 
 abstract class Filter
 {
-    public string $attribute;
-    public string $label;
-    public string $component;
+    use HasComponent,
+        HasAttribute,
+        HasLabel,
+        HasVisibility;
 
     public function __construct($attribute, $label = null)
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Karvaka\Wired\Table\Columns\Concerns;
+namespace Karvaka\Wired\Table\Concerns;
 
 trait HasVisibility
 {
-    public bool $visible = true;
+    protected bool $visible = true;
 
     public function visible(bool $visible): self
     {
@@ -13,17 +13,15 @@ trait HasVisibility
         return $this;
     }
 
-//    public function visibleIf(callable $callback): self
-//    {
-//        $this->visible = value($callback);
-//
-//        return $this;
-//    }
-
     public function hidden(): self
     {
         $this->visible = false;
 
         return $this;
+    }
+
+    public function isVisible(): bool
+    {
+        return $this->visible;
     }
 }

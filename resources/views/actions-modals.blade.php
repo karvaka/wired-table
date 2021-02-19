@@ -36,7 +36,7 @@
                     {{ __('Cancel') }}
                 </x-jet-secondary-button>
 
-                <x-dynamic-component :component="$this->inlineActionBeingPerformed()->destructive ? 'jet-danger-button' : 'jet-button'" class="ml-2" wire:click="performInlineAction" wire:loading.attr="disabled">
+                <x-dynamic-component :component="$this->inlineActionBeingPerformed()->isDestructive() ? 'jet-danger-button' : 'jet-button'" class="ml-2" wire:click="performInlineAction" wire:loading.attr="disabled">
                     {{ __('Run') }}
                 </x-dynamic-component>
             </x-slot>

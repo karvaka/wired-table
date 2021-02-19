@@ -2,19 +2,26 @@
 
 namespace Karvaka\Wired\Table\Columns;
 
-use Karvaka\Wired\Table\Utils;
 use Illuminate\Database\Eloquent\Model;
+use Karvaka\Wired\Table\Utils;
+use Karvaka\Wired\Table\Concerns\{
+    HasComponent,
+    HasVisibility,
+    HasAttribute,
+    HasLabel,
+};
 
 class Column
 {
-    use Concerns\HasAlignment,
-        Concerns\HasVisibility,
+    use HasVisibility,
+        HasComponent,
+        HasAttribute,
+        HasLabel,
+        Concerns\HasAlignment,
         Concerns\Searchable,
         Concerns\Sortable;
 
-    public string $attribute;
-    public string $label;
-    public string $component = 'wired-table::columns.content';
+    protected string $defaultComponent = 'wired-table::columns.content';
 
     public function __construct(string $attribute, ?string $label = null)
     {
@@ -27,23 +34,9 @@ class Column
         return new static($attribute, $label);
     }
 
-    public function label(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
-    }
-
-    public function component(string $component): self
-    {
-        $this->component = $component;
-
-        return $this;
-    }
-
     public function renderCell(Model $model)
     {
-        return view($this->component, [
+        return view($this->getComponent(), [
             'model' => $model,
             'value' => $this->getValue($model)
         ]);
@@ -51,10 +44,8 @@ class Column
 
     public function getValue(Model $model)
     {
-        try {
+        return rescue(function () use ($model) {
             return data_get($model, $this->attribute);
-        } catch (\Throwable $e) {
-            return null;
-        }
+        }, null, false);
     }
 }

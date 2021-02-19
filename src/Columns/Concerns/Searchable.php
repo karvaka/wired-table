@@ -4,8 +4,8 @@ namespace Karvaka\Wired\Table\Columns\Concerns;
 
 trait Searchable
 {
-    public bool $searchable = false;
-    public $searchUsing = null;
+    protected bool $searchable = false;
+    protected $searchCallback = null;
 
     public function searchable(): self
     {
@@ -14,11 +14,21 @@ trait Searchable
         return $this;
     }
 
+    public function isSearchable(): bool
+    {
+        return $this->searchable;
+    }
+
     public function searchUsing(callable $callable): self
     {
         $this->searchable = true;
-        $this->searchUsing = $callable;
+        $this->searchCallback = $callable;
 
         return $this;
+    }
+
+    public function getSearchCallback(): ?callable
+    {
+        return $this->searchCallback;
     }
 }

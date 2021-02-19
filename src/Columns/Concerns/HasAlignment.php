@@ -4,7 +4,7 @@ namespace Karvaka\Wired\Table\Columns\Concerns;
 
 trait HasAlignment
 {
-    public string $alignment = 'left';
+    protected string $alignment = 'left';
 
     public function align(string $alignment): self
     {
@@ -34,4 +34,8 @@ trait HasAlignment
         return $this;
     }
 
+    public function getAlignment(): string
+    {
+        return $this->alignment;
+    }
 }

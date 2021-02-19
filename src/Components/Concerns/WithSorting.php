@@ -4,20 +4,29 @@ namespace Karvaka\Wired\Table\Components\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Karvaka\Wired\Table\Columns\Column;
 
 trait WithSorting
 {
     public bool $enableSorting = true;
     public ?string $sort = null;
-    public ?string $defaultSort = null;
 
     public function initializeWithSorting(): void
     {
         if ($this->enableSorting) {
-            $this->sort = $this->sort ?: $this->defaultSort;
+            $default = $this->getDefaultSort();
+            $this->sort = $this->sort ?: $default;
 
-            $this->queryString = array_merge($this->queryString, ['sort' => ['except' => $this->defaultSort]]);
+            $this->queryString = array_merge($this->queryString, ['sort' => ['except' => $default]]);
         }
+    }
+
+    protected function getDefaultSort()
+    {
+        if (method_exists($this, 'defaultSort')) return $this->defaultSort();
+        if (property_exists($this, 'defaultSort')) return $this->defaultSort;
+
+        return null;
     }
 
     public function sortBy(string $attribute): void
@@ -27,6 +36,8 @@ trait WithSorting
         } else {
             $this->sort = $attribute;
         }
+
+        $this->emitSelf('sortChanged');
     }
 
     public function sortAttribute(): ?string
@@ -45,7 +56,7 @@ trait WithSorting
             return;
         }
 
-        if ($this->getColumns()->where('attribute', '=', $this->sortAttribute())->isEmpty()) {
+        if ($this->getColumns()->filter(fn (Column $column) => $column->getAttribute() === $this->sortAttribute())->isEmpty()) {
             return;
         }
 

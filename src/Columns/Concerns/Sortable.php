@@ -4,8 +4,8 @@ namespace Karvaka\Wired\Table\Columns\Concerns;
 
 trait Sortable
 {
-    public bool $sortable = false;
-    public $sortUsing;
+    protected bool $sortable = false;
+    protected $sortCallback;
 
     public function sortable(): self
     {
@@ -14,11 +14,21 @@ trait Sortable
         return $this;
     }
 
+    public function isSortable(): bool
+    {
+        return $this->sortable;
+    }
+
     public function sortUsing(callable $callable): self
     {
         $this->sortable = true;
-        $this->sortUsing = $callable;
+        $this->sortCallback = $callable;
 
         return $this;
+    }
+
+    public function getSortCallback(): ?callable
+    {
+        return $this->sortCallback;
     }
 }

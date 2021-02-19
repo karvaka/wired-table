@@ -7,6 +7,10 @@ use BadMethodCallException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
+use Karvaka\Wired\Table\Actions\Action;
+use Karvaka\Wired\Table\Columns\Column;
+use Karvaka\Wired\Table\Filters\Filter;
+use Karvaka\Wired\Table\Tabs\Tab;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -46,7 +50,7 @@ abstract class Table extends Component
             $concern = Str::of($trait)->classBasename();
 
             if ($concern->startsWith('With') &&
-                method_exists($trait, $method = 'apply'.$concern->replaceFirst('With', ''))) {
+                method_exists($trait, $method = 'apply' . $concern->replaceFirst('With', ''))) {
                 $this->{$method}($query);
             }
         });
@@ -80,14 +84,66 @@ abstract class Table extends Component
         return Str::of($class)->classBasename()->replaceLast('Table', '')->singular();
     }
 
+    public function updatingPage(): void
+    {
+        $this->unselectAll();
+    }
+
+    protected function getListeners(): array
+    {
+        return array_merge($this->listeners, [
+            'actionPerformed',
+            'filterChanged',
+            'perPageChanged',
+            'searchChanged',
+            'sortChanged',
+            'tabSwitched',
+        ]);
+    }
+
+    public function actionPerformed(): void
+    {
+        //
+    }
+
+    public function filterChanged(): void
+    {
+        $this->resetPage();
+        $this->unselectAll();
+    }
+
+    public function perPageChanged(): void
+    {
+        $this->resetPage();
+        $this->unselectAll();
+    }
+
+    public function searchChanged(): void
+    {
+        $this->resetPage();
+        $this->unselectAll();
+    }
+
+    public function sortChanged(): void
+    {
+        //
+    }
+
+    public function tabSwitched(): void
+    {
+        $this->resetPage();
+        $this->resetFilters();
+        $this->unselectAll();
+    }
+
     public function render()
     {
         return view('wired-table::table')->with([
             'models' => $this->getModels(),
-            'columns' => $this->getColumns()->where('visible', '=', true),
-            'actions' => $this->getActions()->where('visible', '=', true),
-            'filters' => $this->getFilters(),
-            'tabs' => $this->getTabs(),
+            'columns' => $this->getColumns()->filter(fn(Column $column) => $column->isVisible()),
+            'actions' => $this->getActions()->filter(fn(Action $action) => $action->isVisible()),
+            'filters' => $this->getFilters()->filter(fn(Filter $filter) => $filter->isVisible()),
+            'tabs' => $this->getTabs()->filter(fn(Tab $tab) => $tab->isVisible()),
         ]);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Karvaka\Wired\Table\Components\Concerns;
 
-use Karvaka\Wired\Table\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Karvaka\Wired\Table\Tabs\Tab;
 
 trait WithTabs
 {
@@ -14,7 +14,7 @@ trait WithTabs
     public function initializeWithTabs(): void
     {
         if ($this->enableTabs) {
-            $default = ! is_null($this->getDefaultTab()) ? $this->getDefaultTab()->attribute : null;
+            $default = ! is_null($this->getDefaultTab()) ? $this->getDefaultTab()->getAttribute() : null;
 
             $this->queryString = array_merge($this->queryString, ['tab' => ['except' => $default]]);
 
@@ -41,19 +41,12 @@ trait WithTabs
     {
         $this->tab = $tab;
 
-        // TODO exec in class using events
-        if (method_exists($this, 'resetPage')) {
-            $this->resetPage();
-        }
-
-        if (method_exists($this, 'resetFilters')) {
-            $this->resetFilters();
-        }
+        $this->emitSelf('tabSwitched', $tab);
     }
 
-    public function isTabActive($tab): bool
+    public function isTabActive(Tab $tab): bool
     {
-        return $tab->attribute === $this->tab;
+        return $tab->getAttribute() === $this->tab;
     }
 
     public function resolveTab($default = null)
@@ -67,13 +60,13 @@ trait WithTabs
             return;
         }
 
-        $tab = $this->getTabs()->first(fn (Tab $tab) => $tab->attribute === $this->tab);
+        $tab = $this->getTabs()->first(fn (Tab $tab) => $tab->getAttribute() === $this->tab);
         if (! $tab) {
             return;
         }
 
-        if (is_callable($tab->filterUsing)) {
-            app()->call($tab->filterUsing, ['query' => $query]);
+        if (is_callable($callback = $tab->getFilterCallback())) {
+            app()->call($callback, ['query' => $query]);
         }
     }
 }

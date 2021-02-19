@@ -31,9 +31,7 @@ trait WithSearch
 
     public function updatedSearch(): void
     {
-        if (method_exists($this, 'resetPage')) {
-            $this->resetPage();
-        }
+        $this->emitSelf('searchChanged');
     }
 
     public function applySearch(Builder $query): void
@@ -44,24 +42,34 @@ trait WithSearch
 
         $query->where(function (Builder $query) {
             $this->getColumns()
-                ->where('searchable', '=', true)
+                ->filter(fn (Column $column) => $column->isSearchable())
                 ->each(function (Column $column) use ($query) {
-                    if (is_callable($column->searchUsing)) {
-                        $query->orWhere(function (Builder $query) use ($column) {
-                            app()->call($column->searchUsing, ['query' => $query, 'criteria' => $this->searchCriteria()]);
-                        });
-                    } else if(Str::contains($column->attribute, '.')) {
-                        $segments = explode('.', $column->attribute);
-                        $attribute = array_pop($segments);
-                        $relation = implode('.', $segments);
-
-                        $query->orWhereHas($relation, function (Builder $query) use ($attribute) {
-                            $query->where($attribute, 'like', '%' . $this->searchCriteria() . '%');
-                        });
+                    if (is_callable($callback = $column->getSearchCallback())) {
+                        $this->applySearchCallback($query, $column, $callback);
+                    } else if(Str::contains($column->getAttribute(), '.')) {
+                        $this->applySearchByRelation($query, $column);
                     } else {
-                        $query->orWhere($column->attribute, 'like', '%' . $this->searchCriteria() . '%');
+                        $query->orWhere($column->getAttribute(), 'like', '%' . $this->searchCriteria() . '%');
                     }
                 });
+        });
+    }
+
+    private function applySearchCallback(Builder $query, Column $column, callable $callback): void
+    {
+        $query->orWhere(function (Builder $query) use ($column, $callback) {
+            app()->call($callback, ['query' => $query, 'criteria' => $this->searchCriteria()]);
+        });
+    }
+
+    private function applySearchByRelation(Builder $query, Column $column): void
+    {
+        $segments = explode('.', $column->getAttribute());
+        $attribute = array_pop($segments);
+        $relation = implode('.', $segments);
+
+        $query->orWhereHas($relation, function (Builder $query) use ($attribute) {
+            $query->where($attribute, 'like', '%' . $this->searchCriteria() . '%');
         });
     }
 }

@@ -26,13 +26,13 @@
             @foreach($filters as $filter)
                 <div class="my-2">
                     <div class="block text-xs text-gray-400">
-                        {{ __($filter->label) }}
+                        {{ __($filter->getLabel()) }}
                     </div>
 
                     <div class="flex justify-content-between items-center mt-1">
-                        <x-dynamic-component :component="$filter->component" :filter="$filter" />
+                        <x-dynamic-component :component="$filter->getComponent()" :filter="$filter" />
                         <div class="ml-2">
-                            <x-heroicon-o-x class="w-4 h-4 cursor-pointer text-gray-500" wire:click="resetFilter('{{ $filter->attribute }}')" />
+                            <x-heroicon-o-x class="w-4 h-4 cursor-pointer text-gray-500" wire:click="resetFilter('{{ $filter->getAttribute() }}')" />
                         </div>
                     </div>
                 </div>

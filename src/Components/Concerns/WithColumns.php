@@ -65,11 +65,11 @@ trait WithColumns
         // https://laravel.com/docs/8.x/eloquent-relationships#aggregating-related-models
 
         $aggregated = $this->getColumns()->filter(function (Column $column) {
-            return Str::of($column->attribute)->endsWith('_count');
+            return Str::of($column->getAttribute())->endsWith('_count');
         });
 
         $relations = $aggregated->map(function (Column $column) {
-            return (string)Str::of($column->attribute)->replaceLast('_count', '');
+            return (string)Str::of($column->getAttribute())->replaceLast('_count', '');
         })->toArray();
 
         if (count($relations)) {

@@ -30,8 +30,8 @@ trait WithActions
     {
         return ! is_null($this->batchAction) ?
             $this->getActions()
-                ->where('batch', '=', true)
-                ->first(fn (Action $action) => $action->is($this->batchAction)) : null;
+                ->filter(fn (Action $action) => $action->isBatch())
+                ->first(fn (Action $action) => $action->getName() === $this->batchAction) : null;
     }
 
     public function runBatchAction(): void
@@ -40,7 +40,7 @@ trait WithActions
             return;
         }
 
-        if ($action->confirmable) {
+        if ($action->isConfirmable()) {
             $this->confirmingBatchAction = true;
             return;
         }
@@ -61,15 +61,15 @@ trait WithActions
         $this->unselectAll();
         $this->confirmingBatchAction = false;
 
-        $this->emit('actionPerformed', $action->getName());
+        $this->emitSelf('actionPerformed', $action);
     }
 
     public function inlineActionBeingPerformed(): ?Action
     {
         return ! is_null($this->inlineAction) ?
             $this->getActions()
-                ->where('inline', '=', true)
-                ->first(fn (Action $action) => $action->is($this->inlineAction)) : null;
+                ->filter(fn (Action $action) => $action->isInline())
+                ->first(fn (Action $action) => $action->getName() === $this->inlineAction) : null;
     }
 
     public function runInlineAction($modelId, string $name): void
@@ -83,7 +83,7 @@ trait WithActions
 
         $this->inlineModelId = $modelId;
 
-        if ($action->confirmable) {
+        if ($action->isConfirmable()) {
             $this->confirmingInlineAction = true;
             return;
         }
@@ -106,7 +106,7 @@ trait WithActions
 
         $this->confirmingInlineAction = false;
 
-        $this->emit('actionPerformed', $action->getName());
+        $this->emitSelf('actionPerformed', $action);
     }
 
     public function selectAll(): void

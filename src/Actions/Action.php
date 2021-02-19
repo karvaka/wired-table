@@ -4,19 +4,17 @@ namespace Karvaka\Wired\Table\Actions;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Karvaka\Wired\Table\Columns\Concerns\HasVisibility;
 use Karvaka\Wired\Table\Utils;
+use Karvaka\Wired\Table\Concerns\HasVisibility;
 
 abstract class Action
 {
     use HasVisibility;
 
-    public bool $batch = true;
-    public bool $inline = true;
-    public bool $destructive = false;
-    public bool $confirmable = false;
-
-    public string $inlineComponent = 'heroicon-o-pencil';
+    protected bool $batch = true;
+    protected bool $inline = true;
+    protected bool $destructive = false;
+    protected bool $confirmable = false;
 
     public function __construct()
     {
@@ -56,8 +54,28 @@ abstract class Action
         return get_class($this);
     }
 
-    public function is(string $name): bool
+//    public function is(string $name): bool
+//    {
+//        return $name === $this->getName();
+//    }
+
+    public function isBatch(): bool
     {
-        return $name === $this->getName();
+        return $this->batch;
+    }
+
+    public function isInline(): bool
+    {
+        return $this->batch;
+    }
+
+    public function isDestructive(): bool
+    {
+        return $this->destructive;
+    }
+
+    public function isConfirmable(): bool
+    {
+        return $this->confirmable;
     }
 }

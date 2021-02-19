@@ -2,10 +2,10 @@
     <div class="flex">
         <div class="space-x-8 flex -my-px">
             @foreach($tabs as $tab)
-                <x-jet-nav-link wire:click="gotoTab('{{ $tab->attribute }}')"
+                <x-jet-nav-link wire:click="gotoTab('{{ $tab->getAttribute() }}')"
                                 :active="$this->isTabActive($tab)"
                                 class="cursor-pointer">
-                    {{ $tab->label }}
+                    {{ $tab->getLabel() }}
                 </x-jet-nav-link>
             @endforeach
         </div>

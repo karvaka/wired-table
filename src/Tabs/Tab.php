@@ -3,12 +3,15 @@
 namespace Karvaka\Wired\Table\Tabs;
 
 use Karvaka\Wired\Table\Utils;
+use Karvaka\Wired\Table\Concerns\{HasAttribute, HasLabel, HasVisibility};
 
 class Tab
 {
-    public string $attribute;
-    public string $label;
-    public $filterUsing;
+    use HasAttribute,
+        HasLabel,
+        HasVisibility;
+
+    protected $filterUsing;
 
     public function __construct(string $attribute, ?string $label = null)
     {
@@ -25,5 +28,10 @@ class Tab
     {
         $this->filterUsing = $callable;
         return $this;
+    }
+
+    public function getFilterCallback(): ?callable
+    {
+        return $this->filterUsing;
     }
 }

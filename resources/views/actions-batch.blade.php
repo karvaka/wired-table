@@ -2,7 +2,7 @@
     <select wire:model="batchAction"
             class="text-sm font-medium rounded-md border-0 shadow focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
         <option value="">{{ __('Select action') }}</option>
-        @foreach($actions->where('batch', '=', true) as $action)
+        @foreach($actions->filter(fn ($action) => $action->isBatch()) as $action)
             <option value="{{ $action->getName() }}">{{ __($action->getTitle()) }}</option>
         @endforeach
     </select>

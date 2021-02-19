@@ -29,19 +29,28 @@ trait WithFilters
         return [];
     }
 
+    public function getFilters(): Collection
+    {
+        return collect($this->filters());
+    }
+
     public function resetFilters(): void
     {
         $this->filter = [];
+
+        $this->emitSelf('filterChanged');
     }
 
     public function resetFilter($attribute): void
     {
         unset($this->filter[$attribute]);
+
+        $this->emitSelf('filterChanged');
     }
 
-    public function getFilters(): Collection
+    public function updatedFilter(): void
     {
-        return collect($this->filters());
+        $this->emitSelf('filterChanged');
     }
 
     public function applyFilters(Builder $query): void
@@ -52,7 +61,7 @@ trait WithFilters
 
         $query->where(function (Builder $query) {
             $this->getFilters()->each(function (Filter $filter) use ($query) {
-                if (! $value = $this->filter[$filter->attribute] ?? null) {
+                if (! $value = $this->filter[$filter->getAttribute()] ?? null) {
                     return;
                 }
 
