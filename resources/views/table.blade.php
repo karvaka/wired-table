@@ -1,8 +1,8 @@
 <div>
     @if($enableSearch || $enableActions || $enableFilters)
         <div class="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0 mb-4">
-            @includeWhen($enableSearch, 'wired-table::search')
-            @includeWhen($enableActions && $actions->filter(fn ($action) => $action->isBatch())->isNotEmpty(), 'wired-table::actions-batch')
+            @includeWhen($enableSearch && $columns->contains(fn ($column) => $column->isSearchable()), 'wired-table::search')
+            @includeWhen($enableActions && $actions->contains(fn ($action) => $action->isBatch()), 'wired-table::actions-batch')
             @includeWhen($enableFilters && $filters->isNotEmpty(), 'wired-table::filters')
         </div>
     @endif
@@ -57,7 +57,7 @@
                                     <td class="px-6 py-4 text-{{ $column->getAlignment() }} text-sm font-medium whitespace-nowrap">{!! $column->renderCell($model) !!}</td>
                                 @endforeach
                                 <td class="px-6 py-4">
-                                    @includeWhen($actions->filter(fn ($action) => $action->isInline())->isNotEmpty(), 'wired-table::actions-inline')
+                                    @includeWhen($actions->contains(fn ($action) => $action->isInline()), 'wired-table::actions-inline')
                                 </td>
                             </tr>
                         @endforeach
