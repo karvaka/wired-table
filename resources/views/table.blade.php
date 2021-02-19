@@ -2,8 +2,8 @@
     @if($enableSearch || $enableActions || $enableFilters)
         <div class="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0 mb-4">
             @includeWhen($enableSearch, 'wired-table::search')
-            @includeWhen($enableActions && $actions->isNotEmpty(), 'wired-table::actions-batch')
-            @includeWhen($enableFilters && $actions->filter(fn ($action) => $action->isBatch())->isNotEmpty(), 'wired-table::filters')
+            @includeWhen($enableActions && $actions->filter(fn ($action) => $action->isBatch())->isNotEmpty(), 'wired-table::actions-batch')
+            @includeWhen($enableFilters && $filters->isNotEmpty(), 'wired-table::filters')
         </div>
     @endif
     <div class="relative shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
