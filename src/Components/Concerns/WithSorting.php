@@ -2,8 +2,8 @@
 
 namespace Karvaka\Wired\Table\Components\Concerns;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 use Karvaka\Wired\Table\Columns\Column;
 
 trait WithSorting
@@ -61,6 +61,8 @@ trait WithSorting
         }
 
         // TODO call custom handler
+
+        // TODO sort by relation
 
         $query->orderBy($this->sortAttribute(), $this->sortDirection());
     }

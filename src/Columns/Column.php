@@ -27,11 +27,18 @@ class Column
     {
         $this->attribute = $attribute;
         $this->label = $label ?? Utils::humanize($attribute);
+
+        $this->init();
     }
 
     public static function make(string $attribute, ?string $label = null): self
     {
         return new static($attribute, $label);
+    }
+
+    protected function init(): void
+    {
+        //
     }
 
     public function renderCell(Model $model)
