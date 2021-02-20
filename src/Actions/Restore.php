@@ -3,21 +3,29 @@
 namespace Karvaka\Wired\Table\Actions;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Restore extends Action
 {
-    public function handle(Model $model): void
+    protected bool $batch = true;
+    protected string $defaultComponent = 'heroicon-o-reply';
+
+    public function perform(Model $model): void
     {
         $model->restore();
     }
 
-    public function canHandle(Model $model): bool
+    public function canPerform(Model $model): bool
     {
-        return method_exists($model, 'trashed') ? $model->trashed() : false;
+        if (in_array(SoftDeletes::class, class_uses_recursive($model), true)) {
+            return $model->trashed();
+        }
+
+        return false;
     }
 
-    public function getIconComponent()
+    public function canPerformBatch(string $modelClass): bool
     {
-        return 'heroicon-o-reply';
+        return in_array(SoftDeletes::class, class_uses_recursive($modelClass), true);
     }
 }

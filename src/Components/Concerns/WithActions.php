@@ -54,14 +54,14 @@ trait WithActions
             return;
         }
 
-        $action->perform(
-            $this->query()->whereIn('id', $this->selectedModels)->get()
+        $action->performBatch(
+            $this->getQuery()->whereIn('id', $this->selectedModels)->get()
         );
 
         $this->unselectAll();
         $this->confirmingBatchAction = false;
 
-        $this->emitSelf('actionPerformed', $action);
+        $this->emitSelf('batchActionPerformed', $action);
     }
 
     public function inlineActionBeingPerformed(): ?Action
@@ -102,7 +102,7 @@ trait WithActions
             return;
         }
 
-        $action->perform(collect([$model]));
+        $action->perform($model);
 
         $this->confirmingInlineAction = false;
 

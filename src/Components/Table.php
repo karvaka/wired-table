@@ -40,7 +40,7 @@ abstract class Table extends Component
         throw new BadMethodCallException('Method [[static::query()]] must return [[\Illuminate\Database\Eloquent\Builder]] instance.');
     }
 
-    final private function getModels()
+    public function getQuery(): Builder
     {
         $query = $this->query();
 
@@ -54,6 +54,13 @@ abstract class Table extends Component
                 $this->{$method}($query);
             }
         });
+
+        return $query;
+    }
+
+    final private function getModels()
+    {
+        $query = $this->getQuery();
 
         return $this->enablePagination ?
             $query->paginate($this->enablePerPage ? $this->perPage : null) :

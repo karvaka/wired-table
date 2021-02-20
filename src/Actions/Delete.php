@@ -3,26 +3,26 @@
 namespace Karvaka\Wired\Table\Actions;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Delete extends Action
 {
+    protected bool $batch = true;
     protected bool $destructive = true;
     protected bool $confirmable = true;
+    protected string $defaultComponent = 'heroicon-o-trash';
 
-    protected string $inlineComponent = 'heroicon-o-trash';
-
-    public function handle(Model $model): void
+    public function perform(Model $model): void
     {
         $model->delete();
     }
 
-    public function canHandle(Model $model): bool
+    public function canPerform(Model $model): bool
     {
-        return method_exists($model, 'trashed') ? ! $model->trashed() : true;
-    }
+        if (in_array(SoftDeletes::class, class_uses_recursive($model), true)) {
+            return ! $model->trashed();
+        }
 
-    public function getIconComponent()
-    {
-        return 'heroicon-o-trash';
+        return true;
     }
 }
