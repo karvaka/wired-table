@@ -134,7 +134,7 @@ abstract class Table extends Component
 
     public function sortChanged(): void
     {
-        //
+        $this->unselectAll();
     }
 
     public function tabSwitched(): void
