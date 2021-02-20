@@ -86,9 +86,10 @@ abstract class Table extends Component
         static::$resolveDiscoverableNamespaceUsing = $callback;
     }
 
-    public static function guessModelClassForComponent(string $class): string
+    public static function guessModelClassForComponent($class): string
     {
-        return Str::of($class)->classBasename()->replaceLast('Table', '')->singular();
+        return Str::of(is_object($class) ? class_basename($class) : $class)
+            ->classBasename()->replaceLast('Table', '')->singular();
     }
 
     public function updatingPage(): void
