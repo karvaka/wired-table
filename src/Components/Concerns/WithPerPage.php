@@ -2,6 +2,9 @@
 
 namespace Karvaka\Wired\Table\Components\Concerns;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 trait WithPerPage
 {
     public bool $enablePerPage = true;
@@ -11,19 +14,32 @@ trait WithPerPage
     public function mountWithPerPage(): void
     {
         if ($this->enablePerPage) {
-            $this->perPage = session()->get($this->perPageSessionKey(), $this->perPage);
+            $this->restorePerPage();
         }
     }
 
     public function updatedPerPage(): void
     {
-        session()->put($this->perPageSessionKey(), $this->perPage);
+        $this->storePerPage();
 
         $this->emitSelf('perPageChanged');
     }
 
+    private function storePerPage(): void
+    {
+        if (Auth::check()) {
+            Session::put($this->perPageSessionKey(), $this->perPage);
+        }
+    }
+
+    private function restorePerPage(): void
+    {
+        $this->perPage = Auth::check() ?
+            Session::get($this->perPageSessionKey(), $this->perPage) : $this->perPage;
+    }
+
     private function perPageSessionKey(): string
     {
-        return 'wired-table-per-page-' . get_class($this);
+        return 'wired-table-per-page-' . Auth::id() . '-' . get_class($this);
     }
 }

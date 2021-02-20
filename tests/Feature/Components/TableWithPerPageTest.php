@@ -2,7 +2,10 @@
 
 namespace Tests\Feature\Components;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Mockery;
 use Tests\TestCase;
+use Tests\Fixtures\Models\User;
 use Tests\Fixtures\Models\Character;
 use Tests\Fixtures\Components\CharactersTable;
 use Livewire\Livewire;
@@ -29,8 +32,14 @@ class TableWithPerPageTest extends TestCase
         $this->assertEquals(5, $component->viewData('models')->perPage());
     }
 
-    public function testCanStoreValueInSession(): void
+    public function testAuthenticatedCanStoreValueInSession(): void
     {
+        $this->authenticate();
+
+        $this->actingAs($user = Mockery::mock(Authenticatable::class));
+        $user->shouldReceive('getAuthIdentifier')->andReturn(1);
+        $user->shouldReceive('getKey')->andReturn(1);
+
         $key = 'wired-table-per-page-' . CharactersTable::class;
 
         $component = Livewire::test(CharactersTable::class, ['perPage' => 25]);
@@ -39,9 +48,11 @@ class TableWithPerPageTest extends TestCase
         $component->lastResponse->assertSessionHas($key, 10);
     }
 
-    public function testCanRestoreValueFromSession(): void
+    public function testAuthenticatedCanRestoreValueFromSession(): void
     {
-        $key = 'wired-table-per-page-' . CharactersTable::class;
+        $this->authenticate();
+
+        $key = 'wired-table-per-page-' . $this->authenticatedAs->getAuthIdentifier() . '-' . CharactersTable::class;
 
         $this->withSession([
             $key => 10
