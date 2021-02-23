@@ -21,7 +21,7 @@ class Column
         Concerns\Searchable,
         Concerns\Sortable;
 
-    protected string $defaultComponent = 'wired-table::columns.content';
+    protected string $defaultComponent = 'wired-table::cells.content';
 
     public function __construct(string $attribute, ?string $label = null)
     {

@@ -4,7 +4,7 @@ namespace Karvaka\Wired\Table\Columns;
 
 class Image extends Column
 {
-    protected string $defaultComponent = 'wired-table::columns.image';
+    protected string $defaultComponent = 'wired-table::cells.image';
 
 //    public ?int $height;
 //    public ?int $width;

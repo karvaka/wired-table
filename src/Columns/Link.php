@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Link extends Column
 {
-    protected string $defaultComponent = 'wired-table::columns.link';
+    protected string $defaultComponent = 'wired-table::cells.link';
 
     public function getLink(Model $model)
     {
