@@ -8,7 +8,8 @@ use Karvaka\Wired\Table\Actions\Action;
 
 trait WithActions
 {
-    public bool $enableActions = true;
+    public bool $enableBatchActions = false;
+    public bool $enableInlineActions = true;
     public array $selectedModels = [];
     public ?string $batchAction = null;
     public bool $confirmingBatchAction = false;
