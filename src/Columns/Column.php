@@ -21,12 +21,13 @@ class Column
         Concerns\Searchable,
         Concerns\Sortable;
 
+    protected string $translationKeyPrefix = 'validation.attributes.';
     protected string $defaultComponent = 'wired-table::cells.content';
 
     public function __construct(string $attribute, ?string $label = null)
     {
         $this->attribute = $attribute;
-        $this->label = $label ?? Utils::humanize($attribute);
+        $this->label = $label ?? $this->translateAttribute($attribute) ?? Utils::humanize($attribute);
 
         $this->init();
     }
@@ -39,6 +40,12 @@ class Column
     protected function init(): void
     {
         //
+    }
+
+    private function translateAttribute(string $attribute): ?string
+    {
+        return trans()->has($this->translationKeyPrefix . $attribute) ?
+            trans($this->translationKeyPrefix . $attribute) : null;
     }
 
     public function renderCell(Model $model)
