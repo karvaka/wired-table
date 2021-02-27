@@ -9,6 +9,8 @@ trait HasAttribute
     public function attribute(string $attribute): self
     {
         $this->attribute = $attribute;
+
+        return $this;
     }
 
     public function getAttribute(): string
