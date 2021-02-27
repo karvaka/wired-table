@@ -16,7 +16,7 @@ abstract class Filter
     public function __construct($attribute, $label = null)
     {
         $this->attribute = $attribute;
-        $this->label = $label ?? Utils::humanize($attribute);
+        $this->label = $label ?? Utils::translate($attribute) ?? Utils::humanize($attribute);
     }
 
     public static function make($attribute, $label = null): self
