@@ -7,17 +7,30 @@ use Illuminate\View\ComponentAttributeBag;
 
 trait HasStyle
 {
-    public function rowAttributes(Model $model): ?array
+    public function rowStyle(Model $model): string
     {
-        return null;
+        return 'default';
     }
 
-    public function getRowAttributes(Model $model): ?ComponentAttributeBag
+    public function getRowAttributes(string $style): ?ComponentAttributeBag
     {
-        if ($attributes = $this->rowAttributes($model)) {
-            return new ComponentAttributeBag($attributes);
+        $attributes = new ComponentAttributeBag;
+
+        switch ($style) {
+            case 'info':
+                $attributes->setAttributes(['class' => 'bg-blue-100']);
+                break;
+            case 'success':
+                $attributes->setAttributes(['class' => 'bg-green-100']);
+                break;
+            case 'danger':
+                $attributes->setAttributes(['class' => 'bg-red-100']);
+                break;
+            case 'warning':
+                $attributes->setAttributes(['class' => 'bg-yellow-100']);
+                break;
         }
 
-        return null;
+        return $attributes;
     }
 }
