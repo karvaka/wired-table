@@ -45,7 +45,7 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach($models as $model)
-                            <tr>
+                            <tr {{ $this->getRowAttributes($model) }}>
                                 @if($enableBatchActions && $actions->contains(fn ($action) => $action->isBatch()))
                                     <th scope="col" class="px-6 py-4 w-10">
                                         <label class="flex items-center">

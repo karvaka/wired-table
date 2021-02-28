@@ -17,6 +17,7 @@ use Livewire\WithPagination;
 abstract class Table extends Component
 {
     use WithPagination,
+        Concerns\HasStyle,
         Concerns\WithActions,
         Concerns\WithColumns,
         Concerns\WithFilters,
