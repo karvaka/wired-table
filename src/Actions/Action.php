@@ -2,7 +2,7 @@
 
 namespace Karvaka\Wired\Table\Actions;
 
-use BadMethodCallException;
+use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Karvaka\Wired\Table\Concerns\HasComponent;
@@ -15,13 +15,13 @@ class Action
         HasComponent;
 
     protected ?string $name = null;
-    protected ?string $title = null;
+    protected ?string $label = null;
     protected bool $batch = false;
     protected bool $onlyBatch = false;
     protected bool $destructive = false;
     protected bool $confirmable = false;
-    private $performUsing = null;
-    private $canPerformUsing = null;
+    private ?Closure $canSee = null;
+    protected array $afterCallbacks = [];
 
     public function __construct()
     {
@@ -40,21 +40,22 @@ class Action
         return $this;
     }
 
+    // TODO change to unique key
     public function getName(): string
     {
         return $this->name ?? get_class($this);
     }
 
-    public function title(?string $title): self
+    public function label(?string $label): self
     {
-        $this->title = $title;
+        $this->label = $label;
 
         return $this;
     }
 
-    public function getTitle(): string
+    public function getLabel(): string
     {
-        return $this->title ?? Utils::humanize($this);
+        return $this->label ?? Utils::humanize($this);
     }
 
     public function batch(bool $batch): self
@@ -111,36 +112,27 @@ class Action
         return $this->confirmable;
     }
 
-    public function performUsing(callable $callback): self
+    final public function execute(Model $model): void
     {
-        $this->performUsing = $callback;
+        $this->perform($model);
 
-        return $this;
+        foreach ($this->afterCallbacks as $callback) {
+            $callback($model);
+        }
+    }
+
+    final public function executeBatch(Collection $models): void
+    {
+        $this->performBatch($models);
     }
 
     public function perform(Model $model): void
     {
-        if (is_callable($this->performUsing)) {
-            app()->call($this->performUsing, ['model' => $model]);
-            return;
-        }
-
-        throw new BadMethodCallException('Method [[Action::perform]] not implemented.');
-    }
-
-    public function canPerformUsing(callable $callback): self
-    {
-        $this->canPerformUsing = $callback;
-
-        return $this;
+        //
     }
 
     public function canPerform(Model $model): bool
     {
-        if (is_callable($this->canPerformUsing)) {
-            return app()->call($this->canPerformUsing, ['model' => $model]);
-        }
-
         return true;
     }
 
@@ -158,5 +150,24 @@ class Action
     public function canPerformBatch(string $modelClass): bool
     {
         return true;
+    }
+
+    public function authorizedToSee(Model $model): bool
+    {
+        return $this->canSee ? call_user_func($this->canSee, $model) : true;
+    }
+
+    public function canSee(Closure $callback): self
+    {
+        $this->canSee = $callback;
+
+        return $this;
+    }
+
+    public function after(callable $callback): self
+    {
+        $this->afterCallbacks[] = $callback;
+
+        return $this;
     }
 }

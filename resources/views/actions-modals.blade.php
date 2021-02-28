@@ -2,7 +2,7 @@
     @if(!is_null($this->batchActionBeingPerformed()))
         <x-jet-confirmation-modal wire:model="confirmingBatchAction">
             <x-slot name="title">
-                {{ __($this->batchActionBeingPerformed()->getTitle()) }}
+                {{ __($this->batchActionBeingPerformed()->getLabel()) }}
             </x-slot>
 
             <x-slot name="content">
@@ -24,7 +24,7 @@
     @if(!is_null($this->inlineActionBeingPerformed()))
         <x-jet-confirmation-modal wire:model="confirmingInlineAction">
             <x-slot name="title">
-                {{ __($this->inlineActionBeingPerformed()->getTitle()) }}
+                {{ __($this->inlineActionBeingPerformed()->getLabel()) }}
             </x-slot>
 
             <x-slot name="content">

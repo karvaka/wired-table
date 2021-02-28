@@ -55,7 +55,7 @@ trait WithActions
             return;
         }
 
-        $action->performBatch(
+        $action->executeBatch(
             $this->getQuery()->whereIn('id', $this->selectedModels)->get()
         );
 
@@ -103,7 +103,7 @@ trait WithActions
             return;
         }
 
-        $action->perform($model);
+        $action->execute($model);
 
         $this->confirmingInlineAction = false;
 
