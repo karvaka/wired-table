@@ -1,6 +1,6 @@
 <div class="flex items-center justify-end space-x-3">
     @foreach($links->filter(fn ($link) => $link->authorizedToSee($model)) as $link)
-        <a href="{{ $link->getLinkFor($model) }}" class="text-gray-400 hover:text-gray-500">
+        <a href="{{ $link->getLinkFor($model) }}" @if($link->getEvent())wire:click="$emitUp('{{ $link->getEvent() }}', {{ $model->getRouteKey() }})"@endif class="text-gray-400 hover:text-gray-500">
             <x-dynamic-component :component="$link->getComponent()" class="w-5 h-5" />
         </a>
     @endforeach

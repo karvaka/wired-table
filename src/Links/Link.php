@@ -14,7 +14,8 @@ class Link
         HasVisibility,
         AuthorizedToSee;
 
-    private ?Closure $to;
+    private ?Closure $to = null;
+    private ?string $event = null;
 
     public function to(Closure $to)
     {
@@ -23,12 +24,24 @@ class Link
         return $this;
     }
 
+    public function emit(string $event)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
     public function getLinkFor(Model $model)
     {
         if (is_null($this->to)) {
-            throw new \BadMethodCallException;
+            return '#';
         }
 
         return call_user_func($this->to, $model);
+    }
+
+    public function getEvent(): ?string
+    {
+        return $this->event;
     }
 }
