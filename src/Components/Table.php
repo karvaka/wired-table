@@ -29,6 +29,7 @@ abstract class Table extends Component
         Concerns\WithTabs;
 
     public bool $enablePagination = true;
+    public ?string $noResultsText = null;
 
     private static ?Closure $resolveDiscoverableNamespaceUsing = null;
 
