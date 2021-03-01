@@ -57,7 +57,7 @@
                                     <td class="px-6 py-4 text-{{ $column->getAlignment() }} text-sm font-medium whitespace-nowrap">{!! $column->renderCell($model) !!}</td>
                                 @endforeach
                                 <td class="px-6 py-4">
-                                    @includeWhen($enableInlineActions && $actions->contains(fn ($action) => $action->isInline()), 'wired-table::actions-inline')
+                                    @includeWhen(($enableInlineActions && $actions->contains(fn ($action) => $action->isInline())) || $links->isNotEmpty(), 'wired-table::actions-inline')
                                 </td>
                             </tr>
                         @endforeach

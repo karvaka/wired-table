@@ -2,9 +2,9 @@
 
 namespace Karvaka\Wired\Table\Actions;
 
-use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Karvaka\Wired\Table\Concerns\AuthorizedToSee;
 use Karvaka\Wired\Table\Concerns\HasComponent;
 use Karvaka\Wired\Table\Utils;
 use Karvaka\Wired\Table\Concerns\HasVisibility;
@@ -12,7 +12,8 @@ use Karvaka\Wired\Table\Concerns\HasVisibility;
 class Action
 {
     use HasVisibility,
-        HasComponent;
+        HasComponent,
+        AuthorizedToSee;
 
     protected ?string $name = null;
     protected ?string $label = null;
@@ -20,7 +21,6 @@ class Action
     protected bool $onlyBatch = false;
     protected bool $destructive = false;
     protected bool $confirmable = false;
-    private ?Closure $canSee = null;
     protected array $afterCallbacks = [];
 
     public function __construct()
@@ -150,18 +150,6 @@ class Action
     public function canPerformBatch(string $modelClass): bool
     {
         return true;
-    }
-
-    public function authorizedToSee(Model $model): bool
-    {
-        return $this->canSee ? call_user_func($this->canSee, $model) : true;
-    }
-
-    public function canSee(Closure $callback): self
-    {
-        $this->canSee = $callback;
-
-        return $this;
     }
 
     public function after(callable $callback): self

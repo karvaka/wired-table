@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Karvaka\Wired\Table\Actions\Action;
 use Karvaka\Wired\Table\Columns\Column;
 use Karvaka\Wired\Table\Filters\Filter;
+use Karvaka\Wired\Table\Links\Link;
 use Karvaka\Wired\Table\Tabs\Tab;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -21,6 +22,7 @@ abstract class Table extends Component
         Concerns\WithActions,
         Concerns\WithColumns,
         Concerns\WithFilters,
+        Concerns\WithLinks,
         Concerns\WithPerPage,
         Concerns\WithSearch,
         Concerns\WithSorting,
@@ -153,6 +155,7 @@ abstract class Table extends Component
             'actions' => $this->getActions()->filter(fn(Action $action) => $action->isVisible()),
             'filters' => $this->getFilters()->filter(fn(Filter $filter) => $filter->isVisible()),
             'tabs' => $this->getTabs()->filter(fn(Tab $tab) => $tab->isVisible()),
+            'links' => $this->getLinks()->filter(fn(Link $link) => $link->isVisible())
         ]);
     }
 }
