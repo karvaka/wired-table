@@ -16,17 +16,11 @@ class Link
 
     private ?Closure $to = null;
     private ?string $event = null;
+    private bool $preventDefault = false;
 
     public function to(Closure $to)
     {
         $this->to = $to;
-
-        return $this;
-    }
-
-    public function emit(string $event)
-    {
-        $this->event = $event;
 
         return $this;
     }
@@ -40,8 +34,26 @@ class Link
         return call_user_func($this->to, $model);
     }
 
+    public function emit(string $event)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
     public function getEvent(): ?string
     {
         return $this->event;
+    }
+
+    public function preventDefault()
+    {
+        $this->preventDefault = true;
+
+        return $this;
+    }
+
+    public function isDefaultPrevented(): bool
+    {
+        return $this->preventDefault;
     }
 }
