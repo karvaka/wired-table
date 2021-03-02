@@ -1,4 +1,4 @@
-<div class="overflow-x-auto flex justify-between h-12 bg-white px-4">
+<div class="flex justify-between h-12 bg-white px-4">
     <div class="flex">
         <div class="space-x-8 flex -my-px">
             @foreach($tabs as $tab)
